@@ -1,12 +1,9 @@
 package com.janey.core.objects;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONWriter;
 
-@XmlRootElement
 public class Version {
 	private long productId;
 	private String version;

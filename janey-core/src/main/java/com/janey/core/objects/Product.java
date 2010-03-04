@@ -2,12 +2,9 @@ package com.janey.core.objects;
 
 import java.sql.Timestamp;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@XmlRootElement
 public class Product {
 	private long productId;
 	private long companyId;

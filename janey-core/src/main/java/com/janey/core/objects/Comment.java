@@ -2,12 +2,10 @@ package com.janey.core.objects;
 
 import java.sql.Timestamp;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONWriter;
-@XmlRootElement
+
 public class Comment {
 	private long id;
 	private long issueId;
