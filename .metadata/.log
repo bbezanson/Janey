@@ -61,3 +61,10 @@ org.eclipse.osgi.framework.internal.core.AbstractBundle$BundleStatusException
 	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:136)
 	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:238)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.core.resources 2 2 2010-03-03 22:11:06.558
+!MESSAGE Save operation warnings.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2010-03-03 22:11:06.558
+!MESSAGE The project description file (.project) for 'janey-core' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2010-03-03 22:11:06.558
+!MESSAGE The project description file (.project) for 'janey-handlers' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
