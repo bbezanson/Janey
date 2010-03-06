@@ -1,0 +1,6 @@
+{identifier:"value",items:[
+	{value:"0",label:"Unknown"},
+	{value:"1",label:"Windows"},
+	{value:"2",label:"Mac"},
+	{value:"3",label:"Linux"}
+]}

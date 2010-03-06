@@ -1,0 +1,7 @@
+{identifier:"value",items:[
+	{value:"0",label:"New"},
+	{value:"1",label:"Open"},
+	{value:"2",label:"Closed"},
+	{value:"3",label:"Deferred"},
+	{value:"4",label:"Duplicate"}
+]}

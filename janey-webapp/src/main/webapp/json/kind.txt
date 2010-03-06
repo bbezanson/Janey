@@ -1,0 +1,9 @@
+{identifier:"value",items:[
+	{value:"0",label:"Minor"},
+	{value:"1",label:"Major"},
+	{value:"2",label:"Severe"},
+	{value:"3",label:"Crash"},
+	{value:"4",label:"Request"},
+	{value:"5",label:"Requirement"},
+	{value:"6",label:"Other"}
+]}
