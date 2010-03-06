@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>janey</artifactId>
+    <groupId>com.janey</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>janey-js</artifactId>
+  <packaging>war</packaging>
+  <name>Janey JavaScript</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <js_src_dir>src/main/webapp/js/</js_src_dir>
+    <dojo_src>dojo-release-${dojo-version}-${dojo-classifier}</dojo_src>
+  </properties>
+  <build>
+    <outputDirectory>target/scripts</outputDirectory>
+    <testOutputDirectory>target/test-scripts</testOutputDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack dojo</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.tikiwade</groupId>
+                  <artifactId>dojo-release</artifactId>
+                  <version>${dojo-version}</version>
+                  <classifier>${dojo-classifier}</classifier>
+                  <type>zip</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${js_src_dir}</outputDirectory>
+              <overWriteIfNewer>false</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <configuration>
+              <tasks>
+                <property name="dojo" location="${js_src_dir}/${dojo_src}" />
+                <property name="builddir" value="${dojo}/util/buildscripts" />
+                <exec executable="chmod">
+                  <arg value="+x" />
+                  <arg value="${builddir}/build.sh" />
+                </exec>
+                <exec dir="${builddir}" executable="${builddir}/build.sh">
+                  <arg value="profileFile=../../../janey.profile.js" />
+                  <arg value="action=release" />
+                  <arg value="releaseDir=../../../" />
+                </exec>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warSourceExcludes>WEB-INF/lib/*,js/${dojo_src}/**,js/janey/**,js/janey.profile.js</warSourceExcludes>
+          <archive>
+            <manifestEntries>
+              <Bundle-Version>${project.version}</Bundle-Version>
+              <Bundle-Name>${project.name}</Bundle-Name>
+              <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+              <!-- <Web-ContextPath>js</Web-ContextPath> -->
+              <Bundle-SymbolicName>${groupId}.${artifactId}</Bundle-SymbolicName>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

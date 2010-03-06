@@ -37,6 +37,7 @@
     <module>janey-webapp</module>
     <module>janey-handlers</module>
     <module>janey-servlets</module>
+    <module>janey-js</module>
   </modules>
   <properties>
     <servlet-api-version>2.5</servlet-api-version>

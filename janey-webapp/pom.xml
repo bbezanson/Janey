@@ -47,12 +47,12 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!--dependency>
+    <dependency>
       <groupId>com.janey</groupId>
       <artifactId>janey-js</artifactId>
       <version>${project.version}</version>
       <type>war</type>
       <scope>runtime</scope>
-    </dependency-->
+    </dependency>
   </dependencies>
 </project>
