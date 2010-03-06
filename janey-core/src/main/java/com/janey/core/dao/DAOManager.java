@@ -41,6 +41,14 @@ public class DAOManager {
 		this.versionManager.destroy();
 	}
 	
+	public void sync() throws SQLException {
+		this.conn.commit();
+	}
+	
+	public void reset() throws SQLException {
+		this.conn.rollback();
+	}
+	
 	public CommentManager getCommentManager() {
 		return commentManager;
 	}
