@@ -12,8 +12,8 @@ dependencies = {
 			              "dijit.form.TextBox",
 			              "dijit.layout.ContentPane",
 			              "dijit.layout.TabContainer",
-			              "dojox.widget.Toaster"
-			              
+			              "dojox.widget.Toaster",
+			              "janey._base"
 			             ]
 			   }],
 		prefixes:[
