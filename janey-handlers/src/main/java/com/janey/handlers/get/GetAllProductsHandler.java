@@ -10,27 +10,28 @@ import org.json.JSONWriter;
 import com.janey.core.dao.DAOManager;
 import com.janey.core.helpers.JaneyException;
 import com.janey.core.helpers.JaneySession;
-import com.janey.core.objects.Version;
+import com.janey.core.objects.Product;
 import com.janey.handlers.Actions;
 import com.janey.handlers.BaseHandler;
 import com.janey.handlers.Handler;
 
-public class GetAllVersionsHandler extends BaseHandler implements Handler {
+public class GetAllProductsHandler extends BaseHandler implements Handler {
 
-	public GetAllVersionsHandler() {
-		super(Actions.GET_ALL_VERSIONS);
+	public GetAllProductsHandler() {
+		super(Actions.GET_ALL_PRODUCTS);
+		// TODO Auto-generated constructor stub
 	}
 
 	public void handle(JaneySession js, DAOManager daoManager, JSONObject json,
 			JSONWriter out) throws SQLException, JSONException, JaneyException {
 		// TODO Auto-generated method stub
-		long product_id = json.getLong("product_id");
-		List<Version> versions = daoManager.getVersionManager().getAll(product_id);
-		if ( versions != null ) {
+		List<Product> products = daoManager.getProductsManager().getAll();
+		
+		if ( products != null ) {
 			out.object();
 			out.array();
-			for (Version version : versions ) {
-				version.toJson(out);
+			for ( Product product : products ) {
+				product.toJson(out);
 			}
 			out.endArray();
 			out.endObject();
