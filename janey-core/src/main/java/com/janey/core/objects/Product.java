@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONWriter;
 
 public class Product {
 	private long productId;
@@ -23,8 +24,8 @@ public class Product {
 		this.owner = json.getLong("owner");
 		this.name = json.getString("name");
 		this.description = json.getString("description");
-		//this.releaseDate = json.getLong("release_date");
-		//this.eosDate = json.getLong("eosDate");
+		this.releaseDate = new Timestamp(json.getLong("release_date"));
+		this.eosDate = new Timestamp(json.getLong("eosDate"));
 		this.platforms = json.getString("platforms");
 	}
 	public long getCompanyId() {
@@ -75,5 +76,16 @@ public class Product {
 	public void setReleaseDate(Timestamp releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-
+	public void toJson(JSONWriter out) throws JSONException {
+		out.object();
+		out.key("product_id");out.value(this.productId);
+		out.key("company_id");out.value(this.companyId);
+		out.key("owner");out.value(this.owner);
+		out.key("name");out.value(this.name);
+		out.key("description");out.value(this.description);
+		out.key("release_date");out.value(this.releaseDate);
+		out.key("eos_date");out.value(this.eosDate);
+		out.key("platforms");out.value(this.platforms);
+		out.endObject();
+	}
 }

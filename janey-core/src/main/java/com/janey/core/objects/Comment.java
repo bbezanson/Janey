@@ -20,6 +20,7 @@ public class Comment {
 		this.id = json.getLong("id");
 		this.issueId = json.getLong("issue_id");
 		this.type = json.getInt("type");
+		this.date = new Timestamp(json.getLong("date"));
 		this.comment = json.getString("comment");
 	}
 	

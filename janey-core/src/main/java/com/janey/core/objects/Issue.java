@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONWriter;
 
 public class Issue {
 	private long id;
@@ -34,10 +35,10 @@ public class Issue {
 		this.title = json.getString("title");
 		this.description = json.getString("description");
 		this.reportedBy = json.getLong("reported_by");
-		//this.reportedDate = json.getLong("reported_date");
+		this.reportedDate = new Timestamp(json.getLong("reported_date"));
 		this.reportedVersion = json.getString("reported_version");
 		this.resolvedBy = json.getLong("resolved_by");
-		//this.resolvedDate = json.getLong("resolved_date");
+		this.resolvedDate = new Timestamp(json.getLong("resolved_date"));
 		this.resolvedVersion = json.getString("resolved_version");
 	}
 	public long getAssignedTo() {
@@ -130,5 +131,22 @@ public class Issue {
 	public void setType(int type) {
 		this.type = type;
 	}
-
+	public void toJson(JSONWriter out) throws JSONException {
+		out.object();
+		out.key("id");out.value(this.id);
+		out.key("product_id");out.value(this.productId);
+		out.key("status");out.value(this.status);
+		out.key("type");out.value(this.type);
+		out.key("severity");out.value(this.severity);
+		out.key("platform");out.value(this.platform);
+		out.key("title");out.value(this.title);
+		out.key("description");out.value(this.description);
+		out.key("reported_by");out.value(this.reportedBy);
+		out.key("reported_date");out.value(this.reportedDate);
+		out.key("reported_version");out.value(this.reportedVersion);
+		out.key("resolved_by");out.value(this.reportedBy);
+		out.key("resolved_date");out.value(this.reportedDate);
+		out.key("resolved_version");out.value(this.reportedVersion);
+		out.endObject();
+	}
 }
