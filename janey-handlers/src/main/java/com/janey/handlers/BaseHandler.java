@@ -6,6 +6,7 @@ import org.json.JSONWriter;
 public abstract class BaseHandler implements Handler {
 	protected int STAT_SUCCESS = 0;
 	protected int STAT_UNKNOWN = 1;
+	protected int ERROR_CONFIG = 100;
 	
 	private String action;
 	
@@ -20,6 +21,6 @@ public abstract class BaseHandler implements Handler {
 	public void returnStatus(JSONWriter out, int status) throws JSONException {
 		out.object();
 		out.key("status");out.value(status);
-		out.endArray();
+		out.endObject();
 	}
 }

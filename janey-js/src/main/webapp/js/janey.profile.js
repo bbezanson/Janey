@@ -13,7 +13,8 @@ dependencies = {
 			              "dijit.layout.ContentPane",
 			              "dijit.layout.TabContainer",
 			              "dojox.widget.Toaster",
-			              "janey._base"
+			              "janey._base",
+			              "janey.data.Config"
 			             ]
 			   }],
 		prefixes:[

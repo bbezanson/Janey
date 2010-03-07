@@ -28,4 +28,11 @@ dojo.provide("janey._base");
 			CREATE_CONFIG:"create_config",
 			GET_CONFIG:"get_config"
 	};
+	
+	janey.alert = function(msg, type) {
+		// possible types {"message","warning","error","fatal"}
+		console.log("[" + type + "]:" + msg);
+		dijit.byId("alert").setContent(msg,type);
+		dijit.byId("alert").show();
+	};
 })();

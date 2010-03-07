@@ -35,7 +35,7 @@ public class PrefsManagerImpl implements PrefsManager {
 		String jettyHome = System.getProperty("jetty.home");
 		
 		// set up the PROPS_FILE
-		this.PROPS_FILE = ( null != catalinaHome ) ? catalinaHome + "/conf/" : jettyHome + "/etc/" + PREFS_FILENAME;
+		this.PROPS_FILE = ( null != catalinaHome ? catalinaHome + "/conf/" : jettyHome + "/etc/" ) + PREFS_FILENAME;
 	}
 	
 	public void save(Properties props) {

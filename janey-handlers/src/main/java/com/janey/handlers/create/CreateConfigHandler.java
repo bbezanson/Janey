@@ -26,16 +26,22 @@ public class CreateConfigHandler extends BaseHandler implements Handler {
 	public void handle(JaneySession js, DAOManager daoManager, JSONObject json,
 			JSONWriter out) throws SQLException, JSONException, JaneyException {
 		// TODO Auto-generated method stub
-		Iterator<String> iter = json.keys();
-		Properties props = new Properties();
+		if ( daoManager.getProperties().isEmpty() ) {
+			Iterator<String> iter = json.keys();
+			Properties props = new Properties();
 		
-		while ( iter.hasNext() ) {
-			String key = iter.next();
-			props.setProperty(key, json.getString(key));
+			while ( iter.hasNext() ) {
+				String key = iter.next();
+				if ( key.startsWith("com.janey") ) {
+					props.setProperty(key, json.getString(key));
+				}
+			}
+		
+			daoManager.getPrefsManager().save(props);
+			returnStatus(out, STAT_SUCCESS);
+		} else {
+			returnStatus(out, ERROR_CONFIG);
 		}
-		
-		daoManager.getPrefsManager().save(props);
-		returnStatus(out, STAT_SUCCESS);
 	}
 
 }

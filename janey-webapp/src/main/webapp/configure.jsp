@@ -18,6 +18,7 @@
 <style type='text/css'>
 	@import "/tikiwade/js/dojo/dijit/themes/tundra/tundra.css";
 	@import "/tikiwade/js/dojo/dojo/resources/dojo.css";
+	@import "/tikiwade/js/dojo/dojox/widget/Toaster/Toaster.css";
 </style>
 <script type="text/javascript" src="/janey/js/dojo/dojo/dojo.js<%=compress%>" djConfig="isDebug:<%=isDebug%>,parseOnLoad:true"></script>
 <script type="text/javascript" src="/janey/js/dojo/dojo/janeydojo.js<%=compress%>"></script>
@@ -27,9 +28,11 @@
 	dojo.require("dijit.form.Button");
 	dojo.require("dijit.form.FilteringSelect");
 	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require("dojox.widget.Toaster");
 	
 	dojo.registerModulePath("janey", "../janey");
-
+	dojo.require("janey.data.Config");
+	
 	function save() {
 		var props = {
 			"com.janey.db.driver":dijit.byId("dbdriver").attr("value"),
@@ -47,6 +50,8 @@
 			"com.janey.security.admin.username":dijit.byId("securityadminusername").attr("value"),
 			"com.janey.security.admin.password":dijit.byId("securityadminpassword").attr("value")
 		};
+		var config = new janey.data.Config();
+		config.save(props);
 	}
 
 	function setDbUrl() {
@@ -68,6 +73,7 @@
 </script>
 </head>
 <body class="tundra">
+	<div dojoType='dojox.widget.Toaster' id='alert' positionDirection='lr-left'></div>
 	<div dojoType="dijit.layout.ContentPane" title="Database">
 		<label for="dbdriver">Database Driver</label>
 		<select id="dbdriver" dojoType="dijit.form.FilteringSelect">
