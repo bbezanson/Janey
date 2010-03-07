@@ -1,7 +1,8 @@
 package com.janey.core.managers;
 
+import java.util.Properties;
+
 public interface PrefsManager {
-	public void set(String key, String val);
-	public String get(String key);
-	public String get(String key, String defaultVal);
+	public void save(Properties props);
+	public Properties restore();
 }

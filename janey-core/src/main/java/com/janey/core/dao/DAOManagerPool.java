@@ -3,11 +3,9 @@ package com.janey.core.dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
-
-import com.janey.core.managers.PrefsManager;
-import com.janey.core.managers.impl.PrefsManagerImpl;
 
 public class DAOManagerPool {
 	final private static Logger log = Logger.getLogger(DAOManagerPool.class);
@@ -18,17 +16,14 @@ public class DAOManagerPool {
 	List<DAOManager> pool;
 	private int nextManager;
 	
-	public DAOManagerPool() throws SQLException {
-		// create the prefs manager
-		PrefsManager prefsManager = new PrefsManagerImpl();
-		
+	public DAOManagerPool(Properties props) throws SQLException {		
 		lock = new Object();
 		
 		// initialize the pool
 		log.debug("creating pool of dao managers");
 		this.pool = new ArrayList<DAOManager>();
 		for ( int i = 0; i < POOLSIZE; i++ ) {
-			this.pool.add(new DAOManager(prefsManager));
+			this.pool.add(new DAOManager(props));
 		}
 		this.nextManager = 0;
 	}

@@ -23,4 +23,8 @@ public class Actions {
 	public static final String UPDATE_PRODUCT = "update_product";
 	public static final String GET_PRODUCT = "get_product";
 	public static final String GET_ALL_PRODUCTS = "get_all_products";
+	
+	public static final String CREATE_CONFIG = "create_config";
+	public static final String UPDATE_CONFIG = "update_config";
+	public static final String GET_CONFIG = "get_config";
 }

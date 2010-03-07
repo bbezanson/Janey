@@ -3,20 +3,13 @@ package com.janey.core.helpers;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-import com.janey.core.managers.PrefsManager;
-
 public class DBConnectionHelper {
 	final private static Logger log = Logger.getLogger(DBConnectionHelper.class);
-	
-	private final static String DEFAULT_DRIVER = "com.mysql.jdbc.Driver";
-	private final static String DEFAULT_URL = "jdbc:mysql://192.168.2.3/";
-	private final static String DEFAULT_NAME = "tikiwade";
-	private final static String DEFAULT_USER = "webuser";
-	private final static String DEFAULT_PASS = "w3bu53r";
-	
+		
 	private String dbDriver = null;
 	private String dbURL = null;
 	private String dbName = null;
@@ -27,8 +20,8 @@ public class DBConnectionHelper {
 	 * private Constructor - static class, don't construct
 	 *
 	 */
-	public DBConnectionHelper(PrefsManager pm) {
-		loadValuesFromPrefs(pm);
+	public DBConnectionHelper(Properties props) {
+		loadValuesFromPrefs(props);
 	}
 	
 	/**
@@ -93,18 +86,12 @@ public class DBConnectionHelper {
 	 * get the values from the preferences file for the database settings
 	 *
 	 */
-	private void loadValuesFromPrefs(PrefsManager pm) {
+	private void loadValuesFromPrefs(Properties props) {
 		// get the settings or use the defaults
-		String value = null;
-		value 		= pm.get("com.tikiwade.db.driver");
-		dbDriver 	= (null != value) ? value : DEFAULT_DRIVER;
-		value 		= pm.get("com.tikiwade.db.url");
-		dbURL 		= (null != value) ? value : DEFAULT_URL;
-		value 		= pm.get("com.tikiwade.db");
-		dbName 		= (null != value) ? value : DEFAULT_NAME;
-		value 		= pm.get("com.tikiwade.username");
-		dbUser 		= (null != value) ? value : DEFAULT_USER;
-		value 		= pm.get("com.tikiwade.password");
-		dbPass 		= (null != value) ? value : DEFAULT_PASS;
+		dbDriver 	= props.getProperty("com.janey.db.driver");
+		dbURL 		= props.getProperty("com.janey.db.url");
+		dbName 		= props.getProperty("com.janey.db");
+		dbUser 		= props.getProperty("com.janey.username");
+		dbPass 		= props.getProperty("com.janey.password");
 	}
 }

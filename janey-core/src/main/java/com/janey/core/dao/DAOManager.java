@@ -2,6 +2,7 @@ package com.janey.core.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import com.janey.core.helpers.DBConnectionHelper;
 import com.janey.core.managers.CommentManager;
@@ -11,6 +12,7 @@ import com.janey.core.managers.ProductsManager;
 import com.janey.core.managers.VersionManager;
 import com.janey.core.managers.impl.CommentManagerImpl;
 import com.janey.core.managers.impl.IssueManagerImpl;
+import com.janey.core.managers.impl.PrefsManagerImpl;
 import com.janey.core.managers.impl.ProductsManagerImpl;
 import com.janey.core.managers.impl.VersionManagerImpl;
 
@@ -19,15 +21,17 @@ public class DAOManager {
 	private CommentManager commentManager;
 	private IssueManager issueManager;
 	private PrefsManager prefsManager;
+	private Properties properties;
 	private ProductsManager productsManager;
 	private VersionManager versionManager;
 	
-	public DAOManager(PrefsManager pm) throws SQLException {
+	public DAOManager(Properties props) throws SQLException {
 		// TODO: Create the managers
-		this.prefsManager = pm;
-		DBConnectionHelper dbhelper = new DBConnectionHelper(this.prefsManager);
+		this.properties = props;
+		DBConnectionHelper dbhelper = new DBConnectionHelper(props);
 		this.conn = dbhelper.getConnection();
 		
+		this.prefsManager = new PrefsManagerImpl();
 		this.commentManager = new CommentManagerImpl(this.conn);
 		this.issueManager = new IssueManagerImpl(this.conn);
 		this.productsManager = new ProductsManagerImpl(this.conn);
@@ -56,9 +60,13 @@ public class DAOManager {
 	public IssueManager getIssueManager() {
 		return issueManager;
 	}
-
+	
 	public PrefsManager getPrefsManager() {
-		return prefsManager;
+		return this.prefsManager;
+	}
+	
+	public Properties getProperties() {
+		return properties;
 	}
 
 	public ProductsManager getProductsManager() {

@@ -8,19 +8,15 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.janey.core.managers.PrefsManager;
-
 public class EmailHelper {
-	public static final String DEFAULT_MAIL_SERVER = "smtp.server.com";
-	public static final String DEFAULT_MAIL_SENDER = "someone@server.com";
-	private PrefsManager pm;
+	private Properties props;
 	
-	public EmailHelper(PrefsManager pm) {
-		this.pm = pm;
+	public EmailHelper(Properties props) {
+		this.props = props;
 	}
 	
 	public void sendmail(String recipient, String subject, String body) throws Throwable {
-		String sender = pm.get("com.janey.mail.sender", DEFAULT_MAIL_SENDER);
+		String sender = props.getProperty("com.janey.mail.sender");
 		sendmail(recipient, subject, body, sender);
 	}
 	
@@ -29,8 +25,8 @@ public class EmailHelper {
 		{
 			try {
 				// Get the email server and sender from preferences
-				String server = pm.get("com.janey.mail.server", DEFAULT_MAIL_SERVER);
-				String sender = pm.get("com.janey.mail.sender", DEFAULT_MAIL_SENDER);
+				String server = props.getProperty("com.janey.mail.server");
+				String sender = props.getProperty("com.janey.mail.sender");
 								
 				// Get system properties
 				Properties props = System.getProperties();

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.janey.handlers.create.CreateCommentHandler;
+import com.janey.handlers.create.CreateConfigHandler;
 import com.janey.handlers.create.CreateIssueHandler;
 import com.janey.handlers.create.CreateProductHandler;
 import com.janey.handlers.create.CreateVersionHandler;
@@ -17,6 +18,7 @@ import com.janey.handlers.get.GetAllCommentsHandler;
 import com.janey.handlers.get.GetAllIssuesHandler;
 import com.janey.handlers.get.GetAllProductsHandler;
 import com.janey.handlers.get.GetAllVersionsHandler;
+import com.janey.handlers.get.GetConfigHandler;
 import com.janey.handlers.get.GetIssueHandler;
 import com.janey.handlers.get.GetMatchingIssuesHandler;
 import com.janey.handlers.get.GetProductHandler;
@@ -54,6 +56,9 @@ public class HandlerManager {
 		this.handlers.add(new UpdateProductHandler());
 		this.handlers.add(new GetProductHandler());
 		this.handlers.add(new GetAllProductsHandler());
+		
+		this.handlers.add(new CreateConfigHandler());
+		this.handlers.add(new GetConfigHandler());
 	}
 		
 	

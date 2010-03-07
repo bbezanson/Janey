@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -21,6 +22,8 @@ import com.janey.core.dao.DAOManagerPool;
 import com.janey.core.helpers.EmailHelper;
 import com.janey.core.helpers.JaneyException;
 import com.janey.core.helpers.JaneySession;
+import com.janey.core.managers.PrefsManager;
+import com.janey.core.managers.impl.PrefsManagerImpl;
 import com.janey.handlers.BaseHandler;
 import com.janey.handlers.HandlerManager;
 
@@ -28,7 +31,7 @@ public class JsonServlet extends HttpServlet {
 	private static final long serialVersionUID = -1961059737332485864L;
 	final private static Logger log = Logger.getLogger(JsonServlet.class);
 
-	private DAOManagerPool daoManagerPool;
+	private DAOManagerPool daoManagerPool = null;
 	private HandlerManager handlerManager;
 	
 	@Override
@@ -37,8 +40,13 @@ public class JsonServlet extends HttpServlet {
 		log.debug("initializing the janey core servlet");
 		
 		try {
-			log.debug("initializing the dao manager pool");
-			this.daoManagerPool = new DAOManagerPool();
+			log.debug("initializing the preferences");
+			PrefsManager prefsManager = new PrefsManagerImpl();
+			Properties props = prefsManager.restore();
+			if ( !props.isEmpty() ) {
+				log.debug("initializing the dao manager pool");
+				this.daoManagerPool = new DAOManagerPool(props);
+			}
 		} catch (SQLException e) {
 			log.error("SQLException while creating dao manager pool:" +e.getMessage(), e);
 		}
@@ -149,7 +157,7 @@ public class JsonServlet extends HttpServlet {
 				}
 				body.append(json);
 				
-				EmailHelper emailHelper = new EmailHelper(daoManager.getPrefsManager());
+				EmailHelper emailHelper = new EmailHelper(daoManager.getProperties());
 				try {
 					emailHelper.sendmail("wade@tikiwade.com", subject, body.toString());
 				} catch (Throwable e2) {
@@ -172,7 +180,7 @@ public class JsonServlet extends HttpServlet {
 				}
 				body.append(json);
 				
-				EmailHelper emailHelper = new EmailHelper(daoManager.getPrefsManager());
+				EmailHelper emailHelper = new EmailHelper(daoManager.getProperties());
 				try {
 					emailHelper.sendmail("wade@tikiwade.com", subject, body.toString());
 				} catch (Throwable e2) {
