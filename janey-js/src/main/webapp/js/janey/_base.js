@@ -23,6 +23,9 @@ dojo.provide("janey._base");
 			DELETE_PRODUCT:"delete_product",
 			UPDATE_PRODUCT:"update_product",
 			GET_PRODUCT:"get_product",
-			GET_ALL_PRODUCTS:"get_all_products"
+			GET_ALL_PRODUCTS:"get_all_products",
+			
+			CREATE_CONFIG:"create_config",
+			GET_CONFIG:"get_config"
 	};
 })();

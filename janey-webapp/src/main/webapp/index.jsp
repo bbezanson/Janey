@@ -19,7 +19,7 @@
 	@import "/tikiwade/js/dojo/dijit/themes/tundra/tundra.css";
 	@import "/tikiwade/js/dojo/dojo/resources/dojo.css";
 </style>
-<script type="text/javascript" src="/janey/js/dojo/dojo/dojo.js" djConfig="isDebug:<%=isDebug%>,parseOnLoad:true"></script>
+<script type="text/javascript" src="/janey/js/dojo/dojo/dojo.js<%=compress%>" djConfig="isDebug:<%=isDebug%>,parseOnLoad:true"></script>
 <script type="text/javascript" src="/janey/js/dojo/dojo/janeydojo.js<%=compress%>"></script>
 <script type="text/javascript">
 	dojo.require("dojo.parser");

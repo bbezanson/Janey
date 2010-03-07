@@ -17,7 +17,7 @@ import com.janey.core.managers.impl.ProductsManagerImpl;
 import com.janey.core.managers.impl.VersionManagerImpl;
 
 public class DAOManager {
-	private Connection conn;
+	private Connection conn = null;
 	private CommentManager commentManager;
 	private IssueManager issueManager;
 	private PrefsManager prefsManager;
@@ -26,16 +26,27 @@ public class DAOManager {
 	private VersionManager versionManager;
 	
 	public DAOManager(Properties props) throws SQLException {
-		// TODO: Create the managers
 		this.properties = props;
-		DBConnectionHelper dbhelper = new DBConnectionHelper(props);
-		this.conn = dbhelper.getConnection();
-		
 		this.prefsManager = new PrefsManagerImpl();
-		this.commentManager = new CommentManagerImpl(this.conn);
-		this.issueManager = new IssueManagerImpl(this.conn);
-		this.productsManager = new ProductsManagerImpl(this.conn);
-		this.versionManager = new VersionManagerImpl(this.conn);
+		this.init(props);
+	}
+	
+	public void init(Properties props) throws SQLException {
+		if ( !props.isEmpty() ) {
+			this.properties = props;
+			// if this is an update, close the db connection
+			if ( this.conn != null ) {
+				destroy();
+				DBConnectionHelper.closeConnection(this.conn);
+			}
+			DBConnectionHelper dbhelper = new DBConnectionHelper(props);
+			this.conn = dbhelper.getConnection();
+
+			this.commentManager = new CommentManagerImpl(this.conn);
+			this.issueManager = new IssueManagerImpl(this.conn);
+			this.productsManager = new ProductsManagerImpl(this.conn);
+			this.versionManager = new VersionManagerImpl(this.conn);
+		}
 	}
 	
 	public void destroy() throws SQLException {

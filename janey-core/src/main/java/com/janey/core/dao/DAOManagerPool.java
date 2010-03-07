@@ -54,4 +54,12 @@ public class DAOManagerPool {
 		}
 		return daoManager;
 	}
+	
+	/**
+	 * get all the managers at once
+	 * @return
+	 */
+	public List<DAOManager> getAll() {
+		return this.pool;
+	}
 }

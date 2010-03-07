@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletConfig;
@@ -24,6 +25,7 @@ import com.janey.core.helpers.JaneyException;
 import com.janey.core.helpers.JaneySession;
 import com.janey.core.managers.PrefsManager;
 import com.janey.core.managers.impl.PrefsManagerImpl;
+import com.janey.handlers.Actions;
 import com.janey.handlers.BaseHandler;
 import com.janey.handlers.HandlerManager;
 
@@ -43,10 +45,9 @@ public class JsonServlet extends HttpServlet {
 			log.debug("initializing the preferences");
 			PrefsManager prefsManager = new PrefsManagerImpl();
 			Properties props = prefsManager.restore();
-			if ( !props.isEmpty() ) {
-				log.debug("initializing the dao manager pool");
-				this.daoManagerPool = new DAOManagerPool(props);
-			}
+			
+			log.debug("initializing the dao manager pool");
+			this.daoManagerPool = new DAOManagerPool(props);
 		} catch (SQLException e) {
 			log.error("SQLException while creating dao manager pool:" +e.getMessage(), e);
 		}
@@ -130,6 +131,14 @@ public class JsonServlet extends HttpServlet {
 					// TODO: handlers should return something to indicate success
 					try {
 						handler.handle(js, daoManager, json, out);
+						// if this is a create config then we need to init the managers
+						if ( handler.getAction().equals(Actions.CREATE_CONFIG)) {
+							Properties props = daoManager.getPrefsManager().restore();
+							List<DAOManager> managers = this.daoManagerPool.getAll();
+							for ( DAOManager manager : managers ) {
+								manager.init(props);
+							}
+						}
 					} catch (JaneyException e) {
 						log.debug("JaneyException in handler:" + e.getMessage());
 						out.object();

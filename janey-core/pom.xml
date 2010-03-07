@@ -95,5 +95,10 @@
       <version>${postgresql-version}</version>
       <classifier>${postgresql-classifier}</classifier>
     </dependency>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>${hsqldb-version}</version>
+    </dependency>
   </dependencies>
 </project>

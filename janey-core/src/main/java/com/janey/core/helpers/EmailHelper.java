@@ -26,14 +26,16 @@ public class EmailHelper {
 			try {
 				// Get the email server and sender from preferences
 				String server = props.getProperty("com.janey.mail.server");
+				String port = props.getProperty("com.janey.mail.port");
 				String sender = props.getProperty("com.janey.mail.sender");
-								
+				String password = props.getProperty("com.janey.mail.password");
+				
 				// Get system properties
 				Properties props = System.getProperties();
 				
 				// Specify the desired SMTP server and settings
 				props.put("mail.smtp.host", server);
-				props.put("mail.smtp.port", "25");
+				props.put("mail.smtp.port", port);
 				props.put("mail.smtp.auth", "true");
 				
 				// create a new Session object
@@ -50,7 +52,7 @@ public class EmailHelper {
 				//Transport.send(message);
 				// open a transport and send the message
 				Transport tr = session.getTransport("smtp");
-				tr.connect(server, sender, "password");
+				tr.connect(server, sender, password);
 				tr.sendMessage(message, message.getAllRecipients());
 				tr.close();
 			} catch (Throwable t) {

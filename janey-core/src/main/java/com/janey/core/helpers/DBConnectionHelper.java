@@ -90,8 +90,8 @@ public class DBConnectionHelper {
 		// get the settings or use the defaults
 		dbDriver 	= props.getProperty("com.janey.db.driver");
 		dbURL 		= props.getProperty("com.janey.db.url");
-		dbName 		= props.getProperty("com.janey.db");
-		dbUser 		= props.getProperty("com.janey.username");
-		dbPass 		= props.getProperty("com.janey.password");
+		dbName 		= props.getProperty("com.janey.db.name");
+		dbUser 		= props.getProperty("com.janey.db.username");
+		dbPass 		= props.getProperty("com.janey.db.password");
 	}
 }
