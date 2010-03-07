@@ -9,7 +9,7 @@ import org.json.JSONWriter;
 public class Product {
 	private long productId;
 	private long companyId;
-	private long owner;
+	private int owner;
 	private String name;
 	private String description;
 	private Timestamp releaseDate;
@@ -21,7 +21,7 @@ public class Product {
 	public Product(JSONObject json) throws JSONException {
 		this.productId = json.getLong("product_id");
 		this.companyId = json.getLong("company_id");
-		this.owner = json.getLong("owner");
+		this.owner = json.getInt("owner");
 		this.name = json.getString("name");
 		this.description = json.getString("description");
 		this.releaseDate = new Timestamp(json.getLong("release_date"));
@@ -52,10 +52,10 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public long getOwner() {
+	public int getOwner() {
 		return owner;
 	}
-	public void setOwner(long owner) {
+	public void setOwner(int owner) {
 		this.owner = owner;
 	}
 	public String getPlatforms() {

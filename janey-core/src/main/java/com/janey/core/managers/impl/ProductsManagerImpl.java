@@ -65,7 +65,7 @@ public class ProductsManagerImpl implements ProductsManager {
 			Product p = new Product();
 			p.setProductId(rs.getLong("product_id"));
 			p.setCompanyId(rs.getLong("company_id"));
-			p.setOwner(rs.getLong("owner"));
+			p.setOwner(rs.getInt("owner"));
 			p.setName(rs.getString("name"));
 			p.setDescription(rs.getString("description"));
 			p.setReleaseDate(rs.getTimestamp("release_date"));
@@ -85,7 +85,7 @@ public class ProductsManagerImpl implements ProductsManager {
 		protected void execute(Product product) throws SQLException {
 			this.stmt.setLong(1, product.getProductId());
 			this.stmt.setLong(2, product.getCompanyId());
-			this.stmt.setLong(3, product.getOwner());
+			this.stmt.setInt(3, product.getOwner());
 			this.stmt.setString(4, product.getName());
 			this.stmt.setString(5, product.getDescription());
 			this.stmt.setTimestamp(6, product.getReleaseDate());
@@ -104,7 +104,7 @@ public class ProductsManagerImpl implements ProductsManager {
 		
 		protected void execute(Product product) throws SQLException {
 			this.stmt.setLong(1, product.getCompanyId());
-			this.stmt.setLong(2, product.getOwner());
+			this.stmt.setInt(2, product.getOwner());
 			this.stmt.setString(3, product.getName());
 			this.stmt.setString(4, product.getDescription());
 			this.stmt.setTimestamp(5, product.getReleaseDate());
