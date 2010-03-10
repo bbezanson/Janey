@@ -64,13 +64,9 @@ public class ProductsManagerImpl implements ProductsManager {
 		protected Product create(ResultSet rs) throws SQLException {
 			Product p = new Product();
 			p.setProductId(rs.getLong("product_id"));
-			p.setCompanyId(rs.getLong("company_id"));
 			p.setOwner(rs.getInt("owner"));
 			p.setName(rs.getString("name"));
 			p.setDescription(rs.getString("description"));
-			p.setReleaseDate(rs.getTimestamp("release_date"));
-			p.setEosDate(rs.getTimestamp("eos_date"));
-			p.setPlatforms(rs.getString("platforms"));
 			return p;
 		}
 	}
@@ -78,19 +74,15 @@ public class ProductsManagerImpl implements ProductsManager {
 	protected class ProductCreateQuery extends BaseProductQuery {
 		protected ProductCreateQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "insert into " +this.table+ " (product_id, company_id, owner, name, description, release_date, eos_date, platforms) values (?,?,?,?,?,?,?,?)";
+			String sql = "insert into " +this.table+ " (product_id, owner, name, description) values (?,?,?,?)";
 			this.compile(sql);
 		}
 		
 		protected void execute(Product product) throws SQLException {
 			this.stmt.setLong(1, product.getProductId());
-			this.stmt.setLong(2, product.getCompanyId());
-			this.stmt.setInt(3, product.getOwner());
-			this.stmt.setString(4, product.getName());
-			this.stmt.setString(5, product.getDescription());
-			this.stmt.setTimestamp(6, product.getReleaseDate());
-			this.stmt.setTimestamp(7, product.getEosDate());
-			this.stmt.setString(8, product.getPlatforms());
+			this.stmt.setInt(2, product.getOwner());
+			this.stmt.setString(3, product.getName());
+			this.stmt.setString(4, product.getDescription());
 			this.stmt.executeUpdate();
 		}
 	}
@@ -98,19 +90,15 @@ public class ProductsManagerImpl implements ProductsManager {
 	protected class ProductUpdateQuery extends BaseProductQuery {
 		protected ProductUpdateQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "update " +this.table+ " set company_id=?, owner=?, name=?, description=?, release_date=?, eos_date=?, platforms=? where product_id=?";
+			String sql = "update " +this.table+ " set owner=?, name=?, description=? where product_id=?";
 			this.compile(sql);
 		}
 		
 		protected void execute(Product product) throws SQLException {
-			this.stmt.setLong(1, product.getCompanyId());
-			this.stmt.setInt(2, product.getOwner());
-			this.stmt.setString(3, product.getName());
-			this.stmt.setString(4, product.getDescription());
-			this.stmt.setTimestamp(5, product.getReleaseDate());
-			this.stmt.setTimestamp(6, product.getEosDate());
-			this.stmt.setString(7, product.getPlatforms());
-			this.stmt.setLong(8, product.getProductId());
+			this.stmt.setInt(1, product.getOwner());
+			this.stmt.setString(2, product.getName());
+			this.stmt.setString(3, product.getDescription());
+			this.stmt.setLong(4, product.getProductId());
 			this.stmt.executeUpdate();
 		}
 	}
@@ -131,7 +119,7 @@ public class ProductsManagerImpl implements ProductsManager {
 	protected class ProductGetQuery extends BaseProductQuery {
 		protected ProductGetQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "select company_id, owner, name, description, release_date, eos_date, platforms from " + this.table + " where product_id=?";
+			String sql = "select owner, name, description from " + this.table + " where product_id=?";
 			this.compile(sql);
 		}
 		
@@ -152,7 +140,7 @@ public class ProductsManagerImpl implements ProductsManager {
 	protected class ProductGetAllQuery extends BaseProductQuery {
 		protected ProductGetAllQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "select product_id, company_id, owner, name, description, release_date, eos_date, platforms from " + this.table;
+			String sql = "select product_id, owner, name, description from " + this.table;
 			this.compile(sql);
 		}
 		

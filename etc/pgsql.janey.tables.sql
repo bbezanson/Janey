@@ -27,14 +27,10 @@ CREATE TABLE janey_user
 -- ============================================================
 CREATE TABLE product
 (
-	product_id		BIGINT			NOT NULL,
-	company_id		BIGINT,
-	owner			VARCHAR(24),
-	name			VARCHAR(64)		NOT NULL,
+	product_id		BIGINT		NOT NULL,
+	owner			VARCHAR(24)	NOT NULL,
+	name			VARCHAR(64)	NOT NULL,
 	description		TEXT,
-	release_date	TIMESTAMP,
-	eos_date		TIMESTAMP,
-	platforms		VARCHAR(64),
 	PRIMARY KEY(product_id),
 	FOREIGN KEY(owner)			REFERENCES janey_user(user_id)
 );
@@ -44,7 +40,7 @@ CREATE TABLE product
 -- ============================================================
 CREATE TABLE version
 (
-	product_id		BIGINT	NOT NULL,
+	product_id		BIGINT		NOT NULL,
 	version			VARCHAR(64)	NOT NULL,
 	PRIMARY KEY(product_id, version),
 	FOREIGN KEY(product_id)		REFERENCES product(product_id)
@@ -57,19 +53,19 @@ CREATE TABLE issue
 (
 	issue_id		BIGINT		NOT NULL,
 	product_id		BIGINT		NOT NULL,
-	status			SMALLINT		NOT NULL,
-	type			SMALLINT		NOT NULL,
-	severity		SMALLINT		NOT NULL,
-	platform		SMALLINT		NOT NULL,
-	title			VARCHAR(64)		NOT NULL,
-	description		TEXT			NOT NULL,
-	reported_by		VARCHAR(24)		NOT NULL,
-	reported_date	TIMESTAMP		NOT NULL,
-	reported_version VARCHAR(64)	NOT NULL,
+	status			SMALLINT	NOT NULL,
+	type			SMALLINT	NOT NULL,
+	severity		SMALLINT	NOT NULL,
+	platform		SMALLINT	NOT NULL,
+	title			VARCHAR(64)	NOT NULL,
+	description		TEXT		NOT NULL,
+	reported_by		VARCHAR(24)	NOT NULL,
+	reported_date		TIMESTAMP	NOT NULL,
+	reported_version 	VARCHAR(64)	NOT NULL,
 	assigned_to		VARCHAR(24),
 	resolved_by		VARCHAR(24),
-	resolved_date	TIMESTAMP,
-	resolved_version VARCHAR(64),
+	resolved_date		TIMESTAMP,
+	resolved_version 	VARCHAR(64),
 	PRIMARY KEY(issue_id),
 	FOREIGN KEY(product_id)		REFERENCES product(product_id),
 	FOREIGN KEY(reported_by)	REFERENCES janey_user(user_id),
@@ -84,10 +80,10 @@ CREATE TABLE comment
 (
 	comment_id		BIGINT		NOT NULL,
 	issue_id		BIGINT		NOT NULL,
-	type			SMALLINT		NOT NULL,
-	comment_date	TIMESTAMP		NOT NULL,
-	comment			TEXT			NOT NULL,
-	FOREIGN KEY(issue_id)			REFERENCES issue(issue_id)
+	type			SMALLINT	NOT NULL,
+	comment_date		TIMESTAMP	NOT NULL,
+	comment			TEXT		NOT NULL,
+	FOREIGN KEY(issue_id)		REFERENCES issue(issue_id)
 );
 
 -- ============================================================
