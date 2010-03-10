@@ -24,21 +24,9 @@
 <script type="text/javascript">
 	dojo.require("dojo.parser");
 	dojo.registerModulePath("janey", "../janey");
-
-	dojo.require("janey.Config");
-
-	var config = null;
-
-	function loadConfig(json) {
-		if ( config.get().length == 1 ) {
-			window.location = "configure.jsp";
-		}
-	}
 	
 	function init() {
 		console.log("Hello World");
-		config = new janey.Config();
-		config.restore({oncomplete:dojo.hitch(null, "loadConfig")});
 	}
 
 	dojo.ready(init);

@@ -26,6 +26,8 @@ public class CreateProductHandler extends BaseHandler implements Handler {
 		// TODO Auto-generated method stub
 		Product product = new Product(json);
 		daoManager.getProductsManager().create(product);
+		
+		returnStatus(out, STAT_SUCCESS);
 	}
 
 }

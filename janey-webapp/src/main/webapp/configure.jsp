@@ -16,9 +16,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Janey Configuration</title>
 <style type='text/css'>
-	@import "/tikiwade/js/dojo/dijit/themes/tundra/tundra.css";
-	@import "/tikiwade/js/dojo/dojo/resources/dojo.css";
-	@import "/tikiwade/js/dojo/dojox/widget/Toaster/Toaster.css";
+	@import "/janey/js/dojo/dijit/themes/tundra/tundra.css";
+	@import "/janey/js/dojo/dojo/resources/dojo.css";
+	@import "/janey/js/dojo/dojox/widget/Toaster/Toaster.css";
+	html, body { width: 100%; height: 100%; margin: 0; } #borderContainer
+    { width: 100%; height: 100%; }
 </style>
 <script type="text/javascript" src="/janey/js/dojo/dojo/dojo.js<%=compress%>" djConfig="isDebug:<%=isDebug%>,parseOnLoad:true"></script>
 <script type="text/javascript" src="/janey/js/dojo/dojo/janeydojo.js<%=compress%>"></script>
@@ -32,6 +34,14 @@
 	
 	dojo.registerModulePath("janey", "../janey");
 	dojo.require("janey.data.Config");
+
+	var config = null;
+
+	function saveComplete(json) {
+		if ( json && json.status && json.status == "0" ) {
+			window.location = "index.jsp";
+		}
+	}
 	
 	function save() {
 		var props = {
@@ -50,10 +60,33 @@
 			"com.janey.security.admin.username":dijit.byId("securityadminusername").attr("value"),
 			"com.janey.security.admin.password":dijit.byId("securityadminpassword").attr("value")
 		};
-		var config = new janey.data.Config();
-		config.save(props);
+		config.save({data:props,oncomplete:dojo.hitch(null, "saveComplete")});
 	}
 
+	function restore(json) {
+		dojo.forEach(json.config, function(obj){
+			switch(obj.key) {
+			case "com.janey.db.driver":dijit.byId("dbdriver").attr("value", obj.val);break;
+			case "com.janey.db.url":dijit.byId("dburl").attr("value", obj.val);break;
+			case "com.janey.db.name":dijit.byId("dbname").attr("value", obj.val);break;
+			case "com.janey.db.username":dijit.byId("dbusername").attr("value", obj.val);break;
+			case "com.janey.db.password":dijit.byId("dbpassword").attr("value", obj.val);break;
+
+			case "com.janey.mail.server":dijit.byId("mailserver").attr("value", obj.val);break;
+			case "com.janey.mail.port":dijit.byId("mailport").attr("value", obj.val);break;
+			case "com.janey.mail.sender":dijit.byId("mailsender").attr("value", obj.val);break;
+			case "com.janey.mail.password":dijit.byId("mailpassword").attr("value", obj.val);break;
+
+			case "com.janey.security.type":dijit.byId("securitytype").attr("value", obj.val); break;
+			case "com.janey.security.admin.username":dijit.byId("securityadminusername").attr("value", obj.val);break;
+			case "com.janey.security.admin.password":dijit.byId("securityadminpassword").attr("value", obj.val);break;
+			default:
+				console.log("unhandled key:" + obj.key + ":" + obj.val);
+				break;
+			}
+		});
+	}
+	
 	function setDbUrl() {
 		var dbdriver = dijit.byId("dbdriver").attr("value"); 
 		if ( dbdriver === "org.postgresql.Driver" ) {
@@ -64,9 +97,11 @@
 	}
 	
 	function init() {
-		console.log("Hello World");
+		config = new janey.data.Config();
+		config.restore({oncomplete:dojo.hitch(null, "restore")});
 		dojo.connect(dijit.byId("dbdriver"), "onChange", null, "setDbUrl");
 		dojo.connect(dijit.byId("saveButton"), "onClick", null, "save");
+		setDbUrl();
 	}
 
 	dojo.ready(init);

@@ -14,6 +14,9 @@ dependencies = {
 			              "dijit.layout.TabContainer",
 			              "dojox.widget.Toaster",
 			              "janey._base",
+			              "janey.Ajax",
+			              "janey.data.Request",
+			              "janey.data.Response",
 			              "janey.data.Config"
 			             ]
 			   }],

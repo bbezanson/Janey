@@ -28,6 +28,7 @@ public class GetConfigHandler extends BaseHandler implements Handler {
 		Properties props = daoManager.getProperties();
 		
 		out.object();
+		out.key("config");
 		out.array();
 		Set<Object> keys = props.keySet();
 		for ( Object key : keys ) {

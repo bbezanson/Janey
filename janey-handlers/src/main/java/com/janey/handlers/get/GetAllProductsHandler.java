@@ -19,7 +19,6 @@ public class GetAllProductsHandler extends BaseHandler implements Handler {
 
 	public GetAllProductsHandler() {
 		super(Actions.GET_ALL_PRODUCTS);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void handle(JaneySession js, DAOManager daoManager, JSONObject json,
@@ -29,6 +28,7 @@ public class GetAllProductsHandler extends BaseHandler implements Handler {
 		
 		if ( products != null ) {
 			out.object();
+			out.key("items");
 			out.array();
 			for ( Product product : products ) {
 				product.toJson(out);

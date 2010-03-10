@@ -1,52 +1,53 @@
 dojo.provide("janey.data.Config");
 
 dojo.require("janey._base");
+dojo.require("janey.Ajax");
 
 dojo.requireLocalization("janey", "Messages");
 
-dojo.declare("janey.data.Config", null, {
-	_baseUrl:"/janey/Core",
-	
-	CONTENT_TYPE: "application/json",
+dojo.declare("janey.data.Config", janey.Ajax, {
 	
 	_messages:null,
+	
+	_oncompleteHandler:null,
+	
+	_config:null,
 	
 	constructor:function() {
 		this._messages = dojo.i18n.getLocalization("janey", "Messages");
 	},
 	
-	save:function(data) {
-		var json = dojo.toJson(dojo.mixin(data, {action:janey.actions.CREATE_CONFIG}));
-		var self = this;
-		dojo.xhrPost({
-			url: self._baseUrl,
-			handleAs:"json",
-			contentType:self.CONTENT_TYPE,
-			content: {json:json},
-			handle: function(response, ioArgs) {
-				console.log("HTTP status code: ", ioArgs.xhr.status);
-				self.handlePost(response);
-				return response;
-			},
-			error: function(response, ioArgs) {
-				self.handleError(response);
-				return response;
-			}
-		});
-	},
-	
-	handlePost:function(json) {
-		if ( json && json.status ) {
-			janey.alert(this._messages[json.status], "message");
-		} else {
-			janey.alert("bad response from server", "error");
+	parseParams:function(params) {
+		if ( params ) {
+			this._oncompleteHandler = ( 'oncomplete' in params ? params.oncomplete : null );
 		}
 	},
 	
-	handleError:function(json) {
-		this.handlePost(json);
+	save:function(params) {
+		this.parseParams(params);
+		
+		var json = dojo.toJson(dojo.mixin(params.data, {action:janey.actions.CREATE_CONFIG}));
+		this.post(json);
+	},
+	
+	restore:function(params) {
+		this.parseParams(params);
+		this._config = {save:true};
+		
+		var json = dojo.toJson({action:janey.actions.GET_CONFIG});
+		this.post(json);
+	},
+	
+	handleResponse:function(json) {
+		if ( this._config && this._config.save ) {
+			this._config = json;
+		}
+		if ( this._oncompleteHandler ) {
+			this._oncompleteHandler(json);
+		}
 	},
 	
 	get:function() {
+		return this._config;
 	}
 });
