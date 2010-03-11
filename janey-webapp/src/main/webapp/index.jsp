@@ -206,6 +206,7 @@
         <button dojoType="dijit.form.Button" id="saveissue">Save</button>
 	</div>
 	<div dojoType="dijit.layout.ContentPane" title="New Comment">
+		<h1>Create New Comment</h1>
 		<label for="issue">Issue</label>
 		<select dojoType="dijit.form.Select" id="issue"></select><br/>
 		<label for="commenttype">Comment Type</label>
@@ -215,10 +216,23 @@
 		<button dojoType="dijit.form.Button" id="savecomment">Save</button>
 	</div>
 	<div dojoType="dijit.layout.ContentPane" title="Misc">
+		<h1>Misc/Starting Points</h1>
 		<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>
 		<a href="/janey/js/dojo/dijit/themes/themeTester.html">Dijit Themes Tester</a><br/>
 		<a href="/janey/admin.jsp">Admin Page</a><br/>
-		<a href="/janey/configure.jsp">Config Page</a>
+		<a href="/janey/configure.jsp">Config Page</a><br/>
+		<p>First you need a database, currently janey has only been tested with
+		postgresql, but the goal is to also support hsqldb for quick installation. Use the 
+		setup script in the project root etc directory. After that is done, use the link 
+		above to the <em>config</em> page and set up the config. Currently only the config for the
+		db is looked at, we will add email support and insert the admin user soon. After that is
+		done you might need to restart the server. This has only been tested on tomcat so far, but
+		we plan to also support jetty. At this point you should come back here and use the admin
+		page to create users, a project, and versions for the project. When that is done you can
+		come back here and create issues (bugs) and comments for issues. There is currently no
+		type checking on the fields, and there is still a lot to do with adding in searching for
+		issues and displaying them, logging in users, giving users a home page, etc...</p>
+		
 	</div>
 </div>
 </body>
