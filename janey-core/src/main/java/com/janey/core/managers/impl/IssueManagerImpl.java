@@ -76,11 +76,11 @@ public class IssueManagerImpl implements IssueManager {
 			i.setPlatform(rs.getInt("platform"));
 			i.setTitle(rs.getString("title"));
 			i.setDescription(rs.getString("description"));
-			i.setReportedBy(rs.getLong("reported_by"));
+			i.setReportedBy(rs.getString("reported_by"));
 			i.setReportedDate(rs.getTimestamp("reported_date"));
 			i.setReportedVersion(rs.getString("reported_version"));
-			i.setAssignedTo(rs.getLong("assigned_to"));
-			i.setResolvedBy(rs.getLong("resolved_by"));
+			i.setAssignedTo(rs.getString("assigned_to"));
+			i.setResolvedBy(rs.getString("resolved_by"));
 			i.setResolvedDate(rs.getTimestamp("resolved_date"));
 			i.setResolvedVersion(rs.getString("resolved_version"));
 			return i;
@@ -92,7 +92,7 @@ public class IssueManagerImpl implements IssueManager {
 			super(conn);
 			String sql = "insert into " + this.table + " (issue_id, product_id, status, type, severity, platform, title, " +
 					"description, reported_by, reported_date, reported_version, assigned_to) " +
-					"values ((select count(*) from "+this.table+"),?,?,?,?,?,?,?,?,?,?,?)";
+					"values ((select count(*) from "+this.table+"),?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?)";
 			this.compile(sql);
 		}
 		
@@ -104,10 +104,9 @@ public class IssueManagerImpl implements IssueManager {
 			this.stmt.setInt(5, issue.getPlatform());
 			this.stmt.setString(6, issue.getTitle());
 			this.stmt.setString(7, issue.getDescription());
-			this.stmt.setLong(8, issue.getReportedBy());
-			this.stmt.setTimestamp(9, issue.getReportedDate());
-			this.stmt.setString(10, issue.getReportedVersion());
-			this.stmt.setLong(11, issue.getAssignedTo());
+			this.stmt.setString(8, issue.getReportedBy());
+			this.stmt.setString(9, issue.getReportedVersion());
+			this.stmt.setString(10, issue.getAssignedTo());
 			this.stmt.executeUpdate();
 		}
 	}
@@ -116,7 +115,7 @@ public class IssueManagerImpl implements IssueManager {
 		protected IssueUpdateQuery(Connection conn) throws SQLException {
 			super(conn);
 			String sql = "update " + this.table + " set product_id=?, status=?, type=?, severity=?, platform=?, title=?, description=?, " +
-					"reported_by=?, reported_date=?, reported_version=?, assigned_to=?, resolved_by=?, resolved_date=?, resolved_version=? where issue_id=?";
+					"reported_by=?, reported_version=?, assigned_to=?, resolved_by=?, resolved_date=?, resolved_version=? where issue_id=?";
 			this.compile(sql);
 		}
 		
@@ -128,14 +127,13 @@ public class IssueManagerImpl implements IssueManager {
 			this.stmt.setInt(5, issue.getPlatform());
 			this.stmt.setString(6, issue.getTitle());
 			this.stmt.setString(7, issue.getDescription());
-			this.stmt.setLong(8, issue.getReportedBy());
-			this.stmt.setTimestamp(9, issue.getReportedDate());
-			this.stmt.setString(10, issue.getReportedVersion());
-			this.stmt.setLong(11, issue.getAssignedTo());
-			this.stmt.setLong(12, issue.getResolvedBy());
-			this.stmt.setTimestamp(13, issue.getResolvedDate());
-			this.stmt.setString(14, issue.getResolvedVersion());
-			this.stmt.setLong(15, issue.getId());
+			this.stmt.setString(8, issue.getReportedBy());
+			this.stmt.setString(9, issue.getReportedVersion());
+			this.stmt.setString(10, issue.getAssignedTo());
+			this.stmt.setString(11, issue.getResolvedBy());
+			this.stmt.setTimestamp(12, issue.getResolvedDate());
+			this.stmt.setString(13, issue.getResolvedVersion());
+			this.stmt.setLong(14, issue.getId());
 			this.stmt.executeUpdate();
 		}
 	}

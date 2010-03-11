@@ -31,6 +31,7 @@
 	dojo.require("dojo.data.ItemFileReadStore");
 	dojo.require("dijit.form.Textarea");
 	dojo.require("dijit.form.ValidationTextBox");
+	dojo.require("dijit.form.Button");
 	
 	dojo.registerModulePath("janey", "../janey");
 	dojo.require("janey._base");
@@ -103,12 +104,35 @@
 		});
 	}
 
+	function createIssue() {
+		new janey.data.Request({
+			request:{
+				product_id:dijit.byId("products").attr("value"),
+				status:dijit.byId("status").attr("value"),
+				type:dijit.byId("type").attr("value"),
+				severity:dijit.byId("severity").attr("value"),
+				platform:dijit.byId("platform").attr("value"),
+				title:dijit.byId("summary").attr("value"),
+				description:dijit.byId("description").attr("value"),
+				reported_by:dijit.byId("reportedby").attr("value"),
+				reported_version:dijit.byId("versions").attr("value"),
+				assigned_to:dijit.byId("assignto").attr("value")
+			},
+			action:janey.actions.CREATE_ISSUE
+		});
+	}
+
+	function response(json) {
+		console.log("response:" + json);
+	}
+	
 	var stores = [];
 	
 	function init() {
 	//	config = new janey.data.Config();
 	//	config.restore({oncomplete:dojo.hitch(null, "loadConfig")});
-
+		dojo.subscribe("janey/data/Response", null, "response");
+		
 		dojo.connect(dijit.byId("products"), "onChange", null, "getVersions");
 		stores["status"] = new dojo.data.ItemFileReadStore({id:"sstore",url:"json/status.txt"});
 		stores["kind"] = new dojo.data.ItemFileReadStore({id:"kstore",url:"json/kind.txt"});
@@ -120,6 +144,7 @@
 		dijit.byId("platform").setStore(stores["platform"]);
 		getProducts();
 		getUsers();
+		dojo.connect(dijit.byId("saveissue"), "onClick", null, "createIssue");
 	}
 
 	dojo.ready(init);
@@ -149,6 +174,7 @@
         <select dojoType="dijit.form.Select" id="reportedby"></select><br/>
         <label for="description">Assign To</label>
         <select dojoType="dijit.form.Select" id="assignto"></select><br/>
+        <button dojoType="dijit.form.Button" id="saveissue">Save</button>
 	</div>
 	<div dojoType="dijit.layout.ContentPane" title="Misc">
 		<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>

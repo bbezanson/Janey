@@ -15,18 +15,18 @@ public class Issue {
 	private int platform;
 	private String title;
 	private String description;
-	private long reportedBy;
+	private String reportedBy;
 	private Timestamp reportedDate;
 	private String reportedVersion;
-	private long assignedTo;
-	private long resolvedBy;
+	private String assignedTo;
+	private String resolvedBy;
 	private Timestamp resolvedDate;
 	private String resolvedVersion;
 	
 	public Issue() {
 	}
 	public Issue(JSONObject json) throws JSONException {
-		this.id = json.getLong("id");
+		this.id = json.has("id") ? json.getLong("id") : -1;
 		this.productId = json.getLong("product_id");
 		this.status = json.getInt("status");
 		this.type = json.getInt("type");
@@ -34,17 +34,18 @@ public class Issue {
 		this.platform = json.getInt("platform");
 		this.title = json.getString("title");
 		this.description = json.getString("description");
-		this.reportedBy = json.getLong("reported_by");
-		this.reportedDate = new Timestamp(json.getLong("reported_date"));
+		this.reportedBy = json.getString("reported_by");
+//		this.reportedDate = new Timestamp(json.getLong("reported_date"));
 		this.reportedVersion = json.getString("reported_version");
-		this.resolvedBy = json.getLong("resolved_by");
-		this.resolvedDate = new Timestamp(json.getLong("resolved_date"));
-		this.resolvedVersion = json.getString("resolved_version");
+		this.assignedTo = json.getString("assigned_to");
+		this.resolvedBy = json.has("resolved_by") ? json.getString("resolved_by") : "";
+//		this.resolvedDate = new Timestamp(json.getLong("resolved_date"));
+		this.resolvedVersion = json.has("resolved_version") ? json.getString("resolved_version") : "";
 	}
-	public long getAssignedTo() {
+	public String getAssignedTo() {
 		return assignedTo;
 	}
-	public void setAssignedTo(long assignedTo) {
+	public void setAssignedTo(String assignedTo) {
 		this.assignedTo = assignedTo;
 	}
 	public String getDescription() {
@@ -71,10 +72,10 @@ public class Issue {
 	public void setProductId(long productId) {
 		this.productId = productId;
 	}
-	public long getReportedBy() {
+	public String getReportedBy() {
 		return reportedBy;
 	}
-	public void setReportedBy(long reportedBy) {
+	public void setReportedBy(String reportedBy) {
 		this.reportedBy = reportedBy;
 	}
 	public Timestamp getReportedDate() {
@@ -89,10 +90,10 @@ public class Issue {
 	public void setReportedVersion(String reportedVersion) {
 		this.reportedVersion = reportedVersion;
 	}
-	public long getResolvedBy() {
+	public String getResolvedBy() {
 		return resolvedBy;
 	}
-	public void setResolvedBy(long resolvedBy) {
+	public void setResolvedBy(String resolvedBy) {
 		this.resolvedBy = resolvedBy;
 	}
 	public Timestamp getResolvedDate() {
