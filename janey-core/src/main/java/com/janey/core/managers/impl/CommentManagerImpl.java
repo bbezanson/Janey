@@ -68,16 +68,15 @@ public class CommentManagerImpl implements CommentManager {
 	protected class CommentCreateQuery extends BaseCommentQuery {
 		protected CommentCreateQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "insert into " + this.table + " (id, issue_id, type, comment_date, comment) values (?,?,?,CURRENT_TIMESTAMP,?)";
+			String sql = "insert into " + this.table + " (id, issue_id, type, comment_date, comment) " +
+					"values ((select count(*) from "+this.table+"),?,?,CURRENT_TIMESTAMP,?)";
 			this.compile(sql);
 		}
 		
 		protected void execute(Comment comment) throws SQLException {
-			this.stmt.setLong(1, comment.getId());
-			this.stmt.setLong(2, comment.getIssueId());
-			this.stmt.setInt(3, comment.getType());
-			this.stmt.setTimestamp(4, comment.getDate());
-			this.stmt.setString(5, comment.getComment());
+			this.stmt.setLong(1, comment.getIssueId());
+			this.stmt.setInt(2, comment.getType());
+			this.stmt.setString(3, comment.getComment());
 			this.stmt.executeUpdate();
 		}
 	}
@@ -113,7 +112,7 @@ public class CommentManagerImpl implements CommentManager {
 	protected class CommentGetAllQuery extends BaseCommentQuery {
 		protected CommentGetAllQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "select id, issue_id, type, comment_date, comment from " + this.table + " where issue_id=";
+			String sql = "select id, issue_id, type, comment_date, comment from " + this.table + " where issue_id=?";
 			this.compile(sql);
 		}
 		

@@ -25,6 +25,8 @@ public class CreateIssueHandler extends BaseHandler implements Handler {
 		// TODO Auto-generated method stub
 		Issue issue = new Issue(json);
 		daoManager.getIssueManager().create(issue);
+		
+		returnStatus(out, STAT_SUCCESS);
 	}
 
 }

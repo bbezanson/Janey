@@ -26,6 +26,8 @@ public class CreateCommentHandler extends BaseHandler implements Handler {
 		// TODO Auto-generated method stub
 		Comment comment = new Comment(json);
 		daoManager.getCommentManager().create(comment);
+		
+		returnStatus(out, STAT_SUCCESS);
 	}
 
 }

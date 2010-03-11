@@ -1,0 +1,6 @@
+{identifier:"value",label:"label",items:[
+	{value:"0",label:"Update"},
+	{value:"1",label:"Resolution"},
+	{value:"2",label:"Workaround"},
+	{value:"3",label:"Information"}
+]}

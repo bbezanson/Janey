@@ -22,11 +22,12 @@ public class GetAllIssuesHandler extends BaseHandler implements Handler {
 	
 	public void handle(JaneySession js, DAOManager daoManager, JSONObject json,
 			JSONWriter out) throws SQLException, JSONException, JaneyException {
-		// TODO Auto-generated method stub
+		// TODO make this get by product id
 		List<Issue> issues = daoManager.getIssueManager().getAll();
 		
 		if ( issues != null ) {
 			out.object();
+			out.key("items");
 			out.array();
 			for ( Issue issue : issues ) {
 				issue.toJson(out);

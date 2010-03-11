@@ -79,7 +79,7 @@ CREATE TABLE issue
 -- ============================================================
 CREATE TABLE comment
 (
-	comment_id		BIGINT		NOT NULL,
+	id			BIGINT		NOT NULL,
 	issue_id		BIGINT		NOT NULL,
 	type			SMALLINT	NOT NULL,
 	comment_date		TIMESTAMP	NOT NULL,

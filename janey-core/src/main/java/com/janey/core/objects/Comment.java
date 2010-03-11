@@ -17,10 +17,10 @@ public class Comment {
 	}
 	
 	public Comment(JSONObject json) throws JSONException {
-		this.id = json.getLong("id");
+		this.id = json.has("id") ? json.getLong("id") : -1;
 		this.issueId = json.getLong("issue_id");
 		this.type = json.getInt("type");
-		this.date = new Timestamp(json.getLong("date"));
+//		this.date = new Timestamp(json.getLong("date"));
 		this.comment = json.getString("comment");
 	}
 	

@@ -104,6 +104,20 @@
 		});
 	}
 
+	function getIssues() {
+		var f = function(resp) {
+			var store = createStore(resp.getJson(), "title", "id");
+			if ( store ) {
+				dijit.byId("issue").setStore(store);
+			}
+		};
+		new janey.data.Request({
+			request:{product_id:dijit.byId("products").attr("value")},
+			action:janey.actions.GET_ALL_ISSUES,
+			oncomplete:f
+		});
+	}
+
 	function createIssue() {
 		new janey.data.Request({
 			request:{
@@ -122,6 +136,17 @@
 		});
 	}
 
+	function createComment() {
+		new janey.data.Request({
+			request:{
+				issue_id:dijit.byId("issue").attr("value"),
+				type:dijit.byId("commenttype").attr("value"),
+				comment:dijit.byId("comment").attr("value")
+			}, 
+			action:janey.actions.CREATE_COMMENT
+		});
+	}
+	
 	function response(json) {
 		console.log("response:" + json);
 	}
@@ -138,13 +163,17 @@
 		stores["kind"] = new dojo.data.ItemFileReadStore({id:"kstore",url:"json/kind.txt"});
 		stores["severity"] = new dojo.data.ItemFileReadStore({id:"kstore",url:"json/severity.txt"});
 		stores["platform"] = new dojo.data.ItemFileReadStore({id:"pstore",url:"json/platforms.txt"});
+		stores["commenttype"] = new dojo.data.ItemFileReadStore({id:"cstore",url:"json/commenttype.txt"});
 		dijit.byId("status").setStore(stores["status"]);
 		dijit.byId("type").setStore(stores["kind"]);
 		dijit.byId("severity").setStore(stores["severity"]);
 		dijit.byId("platform").setStore(stores["platform"]);
+		dijit.byId("commenttype").setStore(stores["commenttype"]);
 		getProducts();
 		getUsers();
+		getIssues();
 		dojo.connect(dijit.byId("saveissue"), "onClick", null, "createIssue");
+		dojo.connect(dijit.byId("savecomment"), "onClick", null, "createComment");
 	}
 
 	dojo.ready(init);
@@ -175,6 +204,15 @@
         <label for="description">Assign To</label>
         <select dojoType="dijit.form.Select" id="assignto"></select><br/>
         <button dojoType="dijit.form.Button" id="saveissue">Save</button>
+	</div>
+	<div dojoType="dijit.layout.ContentPane" title="New Comment">
+		<label for="issue">Issue</label>
+		<select dojoType="dijit.form.Select" id="issue"></select><br/>
+		<label for="commenttype">Comment Type</label>
+		<select dojoType="dijit.form.Select" id="commenttype"></select><br/>
+		<label for="description">Comment</label>
+        <textarea dojoType="dijit.form.Textarea" id="comment"></textarea><br/>
+		<button dojoType="dijit.form.Button" id="savecomment">Save</button>
 	</div>
 	<div dojoType="dijit.layout.ContentPane" title="Misc">
 		<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>
