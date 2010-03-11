@@ -1,6 +1,7 @@
 {identifier:"value",label:"label",items:[
-	{value:"0",label:"Unknown"},
+	{value:"0",label:"All"},
 	{value:"1",label:"Windows"},
 	{value:"2",label:"Mac"},
-	{value:"3",label:"Linux"}
+	{value:"3",label:"Linux"},
+	{value:"4",label:"Other(see description)"}
 ]}

@@ -45,17 +45,42 @@
 //		}
 //	}
 
+	function createStore(json, label, value) {
+		// summary:
+		//		create a store for a select from returned item list data
+		var store = null;
+		if ( json && json.items ) {
+			var data = {identifier:"value",label:"label",items:[]};
+			dojo.forEach(json.items, function(item) {
+				data.items.push({label:item[label], value:item[value]});
+			});
+			store = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
+		}
+		return store;
+	}
+	
+	function getUsers() {
+		var f = function(resp) {
+			var store = createStore(resp.getJson(), "id", "id" );
+			if ( store ) {
+				dijit.byId("reportedby").setStore(store);
+				dijit.byId("assignto").setStore(store);
+			}
+		}
+		new janey.data.Request({
+			request:{},
+			action:janey.actions.GET_ALL_USERS,
+			oncomplete:f
+		});
+	}
+
 	function getProducts() {
 		var f = function(resp) {
-			var json = resp.getJson();
-			if ( json && json.items ) {
-				var data = {identifier:"value",label:"label",items:[]};
-				dojo.forEach(json.items, function(item){
-					data.items.push({label:item.name, value:item.id});
-				});
-				var store = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
+			var store = createStore(resp.getJson(), "name", "id");
+			if ( store ) {
 				dijit.byId("products").setStore(store);
 			}
+			getVersions();
 		};
 		new janey.data.Request({
 			request:{},
@@ -66,13 +91,8 @@
 
 	function getVersions() {
 		var f = function(resp) {
-			var json = resp.getJson();
-			if ( json && json.items ) {
-				var data = {identifier:"value",label:"label",items:[]};
-				dojo.forEach(json.items, function(item){
-					data.items.push({label:item.version, value:item.version});
-				});
-				var store = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
+			var store = createStore(resp.getJson(), "version", "version");
+			if ( store ) {
 				dijit.byId("versions").setStore(store);
 			}
 		};
@@ -92,11 +112,14 @@
 		dojo.connect(dijit.byId("products"), "onChange", null, "getVersions");
 		stores["status"] = new dojo.data.ItemFileReadStore({id:"sstore",url:"json/status.txt"});
 		stores["kind"] = new dojo.data.ItemFileReadStore({id:"kstore",url:"json/kind.txt"});
+		stores["severity"] = new dojo.data.ItemFileReadStore({id:"kstore",url:"json/severity.txt"});
 		stores["platform"] = new dojo.data.ItemFileReadStore({id:"pstore",url:"json/platforms.txt"});
 		dijit.byId("status").setStore(stores["status"]);
 		dijit.byId("type").setStore(stores["kind"]);
+		dijit.byId("severity").setStore(stores["severity"]);
 		dijit.byId("platform").setStore(stores["platform"]);
 		getProducts();
+		getUsers();
 	}
 
 	dojo.ready(init);
@@ -118,10 +141,14 @@
 		<select dojoType="dijit.form.Select" id="severity"></select><br/>
 		<label for="platform">Platform</label>
 		<select dojoType="dijit.form.Select" id="platform"></select><br/>
-		<label for="title">Title</label>
-        <input type="text" id="title" dojoType="dijit.form.ValidationTextBox"/><br/>
+		<label for="summary">Summary</label>
+        <input type="text" id="summary" dojoType="dijit.form.ValidationTextBox"/><br/>
         <label for="description">Description</label>
         <textarea dojoType="dijit.form.Textarea" id="description"></textarea><br/>
+        <label for="description">Reported By</label>
+        <select dojoType="dijit.form.Select" id="reportedby"></select><br/>
+        <label for="description">Assign To</label>
+        <select dojoType="dijit.form.Select" id="assignto"></select><br/>
 	</div>
 	<div dojoType="dijit.layout.ContentPane" title="Misc">
 		<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>

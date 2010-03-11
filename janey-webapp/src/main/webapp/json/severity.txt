@@ -1,0 +1,8 @@
+{identifier:"value",label:"label",items:[
+	{value:"0",label:"Blocker"},
+	{value:"1",label:"Critical"},
+	{value:"2",label:"Major"},
+	{value:"3",label:"Normal"},
+	{value:"4",label:"Minor"},
+	{value:"5",label:"Trivial"}
+]}
