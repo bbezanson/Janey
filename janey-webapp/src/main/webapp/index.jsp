@@ -18,35 +18,117 @@
 <style type='text/css'>
 	@import "/janey/js/dojo/dijit/themes/tundra/tundra.css";
 	@import "/janey/js/dojo/dojo/resources/dojo.css";
+	html, body { width: 100%; height: 100%; margin: 0; } #borderContainer
+    { width: 100%; height: 100%; }
 </style>
 <script type="text/javascript" src="/janey/js/dojo/dojo/dojo.js<%=compress%>" djConfig="isDebug:<%=isDebug%>,parseOnLoad:true"></script>
 <script type="text/javascript" src="/janey/js/dojo/dojo/janeydojo.js<%=compress%>"></script>
 <script type="text/javascript">
 	dojo.require("dojo.parser");
+	dojo.require("dijit.layout.TabContainer");
+	dojo.require("dijit.layout.ContentPane");
+	dojo.require("dijit.form.Select");
+	dojo.require("dojo.data.ItemFileReadStore");
+	dojo.require("dijit.form.Textarea");
+	dojo.require("dijit.form.ValidationTextBox");
+	
 	dojo.registerModulePath("janey", "../janey");
+	dojo.require("janey._base");
+	dojo.require("janey.data.Request");
+//	dojo.require("janey.data.Config");
 
-	dojo.require("janey.Config");
+//	var config = null;
 
-	var config = null;
+//	function loadConfig(json) {
+//		if ( config.get().length == 1 ) {
+//			window.location = "configure.jsp";
+//		}
+//	}
 
-	function loadConfig(json) {
-		if ( config.get().length == 1 ) {
-			window.location = "configure.jsp";
-		}
+	function getProducts() {
+		var f = function(resp) {
+			var json = resp.getJson();
+			if ( json && json.items ) {
+				var data = {identifier:"value",label:"label",items:[]};
+				dojo.forEach(json.items, function(item){
+					data.items.push({label:item.name, value:item.id});
+				});
+				var store = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
+				dijit.byId("products").setStore(store);
+			}
+		};
+		new janey.data.Request({
+			request:{},
+			action:janey.actions.GET_ALL_PRODUCTS,
+			oncomplete:f
+		});
 	}
+
+	function getVersions() {
+		var f = function(resp) {
+			var json = resp.getJson();
+			if ( json && json.items ) {
+				var data = {identifier:"value",label:"label",items:[]};
+				dojo.forEach(json.items, function(item){
+					data.items.push({label:item.version, value:item.version});
+				});
+				var store = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
+				dijit.byId("versions").setStore(store);
+			}
+		};
+		new janey.data.Request({
+			request:{product_id:dijit.byId("products").attr("value")},
+			action:janey.actions.GET_ALL_VERSIONS,
+			oncomplete:f
+		});
+	}
+
+	var stores = [];
 	
 	function init() {
-		console.log("Hello World");
-		config = new janey.Config();
-		config.restore({oncomplete:dojo.hitch(null, "loadConfig")});
+	//	config = new janey.data.Config();
+	//	config.restore({oncomplete:dojo.hitch(null, "loadConfig")});
+
+		dojo.connect(dijit.byId("products"), "onChange", null, "getVersions");
+		stores["status"] = new dojo.data.ItemFileReadStore({id:"sstore",url:"json/status.txt"});
+		stores["kind"] = new dojo.data.ItemFileReadStore({id:"kstore",url:"json/kind.txt"});
+		stores["platform"] = new dojo.data.ItemFileReadStore({id:"pstore",url:"json/platforms.txt"});
+		dijit.byId("status").setStore(stores["status"]);
+		dijit.byId("type").setStore(stores["kind"]);
+		dijit.byId("platform").setStore(stores["platform"]);
+		getProducts();
 	}
 
 	dojo.ready(init);
 </script>
 </head>
 <body class="tundra">
-Janey - Easy Issue Tracking<br>
-<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>
-<a href="/janey/js/dojo/dijit/themes/themeTester.html">Dijit Themes Tester</a>
+<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+	<div dojoType="dijit.layout.ContentPane" title="New Issue">
+		<h1>Create New Issue</h1>
+		<label for="products">Product</label>
+		<select dojoType="dijit.form.Select" id="products"></select><br/>
+		<label for="versions">Version</label>
+		<select dojoType="dijit.form.Select" id="versions"></select><br/>
+		<label for="status">Status</label>
+		<select dojoType="dijit.form.Select" id="status"></select><br/>
+		<label for="type">Type</label>
+		<select dojoType="dijit.form.Select" id="type"></select><br/>
+		<label for="severity">Severity</label>
+		<select dojoType="dijit.form.Select" id="severity"></select><br/>
+		<label for="platform">Platform</label>
+		<select dojoType="dijit.form.Select" id="platform"></select><br/>
+		<label for="title">Title</label>
+        <input type="text" id="title" dojoType="dijit.form.ValidationTextBox"/><br/>
+        <label for="description">Description</label>
+        <textarea dojoType="dijit.form.Textarea" id="description"></textarea><br/>
+	</div>
+	<div dojoType="dijit.layout.ContentPane" title="Misc">
+		<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>
+		<a href="/janey/js/dojo/dijit/themes/themeTester.html">Dijit Themes Tester</a><br/>
+		<a href="/janey/admin.jsp">Admin Page</a><br/>
+		<a href="/janey/configure.jsp">Config Page</a>
+	</div>
+</div>
 </body>
 </html>

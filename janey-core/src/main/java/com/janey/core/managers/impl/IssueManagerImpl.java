@@ -90,23 +90,24 @@ public class IssueManagerImpl implements IssueManager {
 	protected class IssueCreateQuery extends BaseIssueQuery {
 		protected IssueCreateQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "insert into " + this.table + " (issue_id, product_id, status, type, severity, platform, title, description, reported_by, reported_date, reported_version, assigned_to) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into " + this.table + " (issue_id, product_id, status, type, severity, platform, title, " +
+					"description, reported_by, reported_date, reported_version, assigned_to) " +
+					"values ((select count(*) from "+this.table+"),?,?,?,?,?,?,?,?,?,?,?)";
 			this.compile(sql);
 		}
 		
 		protected void execute(Issue issue) throws SQLException {
-			this.stmt.setLong(1, issue.getId());
-			this.stmt.setLong(2, issue.getProductId());
-			this.stmt.setInt(3, issue.getStatus());
-			this.stmt.setInt(4, issue.getType());
-			this.stmt.setInt(5, issue.getSeverity());
-			this.stmt.setInt(6, issue.getPlatform());
-			this.stmt.setString(7, issue.getTitle());
-			this.stmt.setString(8, issue.getDescription());
-			this.stmt.setLong(9, issue.getReportedBy());
-			this.stmt.setTimestamp(10, issue.getReportedDate());
-			this.stmt.setString(11, issue.getReportedVersion());
-			this.stmt.setLong(12, issue.getAssignedTo());
+			this.stmt.setLong(1, issue.getProductId());
+			this.stmt.setInt(2, issue.getStatus());
+			this.stmt.setInt(3, issue.getType());
+			this.stmt.setInt(4, issue.getSeverity());
+			this.stmt.setInt(5, issue.getPlatform());
+			this.stmt.setString(6, issue.getTitle());
+			this.stmt.setString(7, issue.getDescription());
+			this.stmt.setLong(8, issue.getReportedBy());
+			this.stmt.setTimestamp(9, issue.getReportedDate());
+			this.stmt.setString(10, issue.getReportedVersion());
+			this.stmt.setLong(11, issue.getAssignedTo());
 			this.stmt.executeUpdate();
 		}
 	}
@@ -114,7 +115,8 @@ public class IssueManagerImpl implements IssueManager {
 	protected class IssueUpdateQuery extends BaseIssueQuery {
 		protected IssueUpdateQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "update " + this.table + " set product_id=?, status=?, type=?, severity=?, platform=?, title=?, description=?, reported_by=?, reported_date=?, reported_version=?, assigned_to=?, resolved_by=?, resolved_date=?, resolved_version=? where issue_id=?";
+			String sql = "update " + this.table + " set product_id=?, status=?, type=?, severity=?, platform=?, title=?, description=?, " +
+					"reported_by=?, reported_date=?, reported_version=?, assigned_to=?, resolved_by=?, resolved_date=?, resolved_version=? where issue_id=?";
 			this.compile(sql);
 		}
 		

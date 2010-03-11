@@ -46,7 +46,6 @@
 			if ( json && json.items ) {
 				var data = {identifier:"value",label:"label",items:[]};
 				dojo.forEach(json.items, function(user) {
-					console.log(user.id + ":" + user.email);
 					data.items.push({label:user.id, value:user.id});
 				});
 				var store = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
@@ -64,7 +63,12 @@
 		var f = function(resp) {
 			var json = resp.getJson();
 			if ( json && json.items ) {
-				console.log("product item");
+				var data = {identifier:"value",label:"label",items:[]};
+				dojo.forEach(json.items, function(item){
+					data.items.push({label:item.name, value:item.id});
+				});
+				var store = new dojo.data.ItemFileReadStore({data:dojo.clone(data)});
+				dijit.byId("versionprod").setStore(store);
 			}
 		};
 		new janey.data.Request({
@@ -95,6 +99,16 @@
 			action:janey.actions.CREATE_PRODUCT
 		});
 	}
+
+	function createVersion() {
+		new janey.data.Request({
+			request:{
+				product_id:dijit.byId("versionprod").attr("value"),
+				version:dijit.byId("version").attr("value")
+			},
+			action:janey.actions.CREATE_VERSION
+		});
+	}
 	
 	function response(json) {
 		console.log("response:" + json);
@@ -109,7 +123,9 @@
 		dojo.subscribe("janey/data/Response", null, "response");
 		dojo.connect(dijit.byId("saveuser"), "onClick", dojo.hitch(null, "createUser"));
 		dojo.connect(dijit.byId("saveprod"), "onClick", dojo.hitch(null, "createProduct"));
+		dojo.connect(dijit.byId("savevers"), "onClick", null, "createVersion");
 		getUsers();
+		getProducts();
 	}
 
 	dojo.ready(init);
@@ -124,8 +140,8 @@
 		<div dojoType="dijit.layout.AccordionPane" title="Products" id="productsPane"></div>
 	</div>
     <div dojoType="dijit.layout.ContentPane" splitter="true" region="center">
-        Hi, I'm center
-        <h1>Define User</h1>
+        Starting admin page, create stuff willy nilly, no permission, no error checking...yet
+        <h1>Define User (debug only - do this first!!)</h1>
         <label for="username">Username</label>
         <input type="text" id="username" dojoType="dijit.form.ValidationTextBox"/><br/>
         <label for="password">Password</label>
@@ -133,15 +149,15 @@
         <label for="password">Email</label>
         <input type="text" id="email" dojoType="dijit.form.ValidationTextBox"/><br/>
         <button dojoType="dijit.form.Button" id="saveuser">Save</button>
-        <h1>Define Product</h1>
+        <h1>Define Product (debug only - do this second)</h1>
         <label for="productname">Name</label>
         <input type="text" id="productname" dojoType="dijit.form.ValidationTextBox"/><br/>
         <label for="productdesc">Description</label>
         <textarea dojoType="dijit.form.Textarea" id="productdesc"></textarea><br/>
         <label for="productowner">Owner</label>
-        <select dojoType="dijit.form.Select" id="productowner"><option>remove me</option></select><br/>
+        <select dojoType="dijit.form.Select" id="productowner"></select><br/>
         <button dojoType="dijit.form.Button" id="saveprod">Save</button>
-        <h1>Define Version</h1>
+        <h1>Define Version (debug only - do this last)</h1>
         <label for="versionprod">Product</label>
         <select dojoType="dijit.form.Select" id="versionprod"></select><br/>
 		<label for="version">Version</label>

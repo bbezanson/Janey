@@ -1,4 +1,4 @@
-{identifier:"value",items:[
+{identifier:"value",label:"label",items:[
 	{value:"0",label:"Unknown"},
 	{value:"1",label:"Windows"},
 	{value:"2",label:"Mac"},

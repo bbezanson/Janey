@@ -23,11 +23,11 @@ public class GetAllVersionsHandler extends BaseHandler implements Handler {
 
 	public void handle(JaneySession js, DAOManager daoManager, JSONObject json,
 			JSONWriter out) throws SQLException, JSONException, JaneyException {
-		// TODO Auto-generated method stub
 		long product_id = json.getLong("product_id");
 		List<Version> versions = daoManager.getVersionManager().getAll(product_id);
 		if ( versions != null ) {
 			out.object();
+			out.key("items");
 			out.array();
 			for (Version version : versions ) {
 				version.toJson(out);

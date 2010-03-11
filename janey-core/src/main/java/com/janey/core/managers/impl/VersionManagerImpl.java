@@ -113,7 +113,7 @@ public class VersionManagerImpl implements VersionManager {
 	protected class VersionGetAllQuery extends BaseVersionQuery {
 		protected VersionGetAllQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "select products_id, version from " + this.table + " where product_id=?";
+			String sql = "select product_id, version from " + this.table + " where product_id=?";
 			this.compile(sql);
 		}
 		

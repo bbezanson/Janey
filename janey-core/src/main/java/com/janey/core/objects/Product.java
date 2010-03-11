@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import org.json.JSONWriter;
 
 public class Product {
-	private long productId;
+	private long id;
 	private String owner;
 	private String name;
 	private String description;
@@ -14,9 +14,9 @@ public class Product {
 	}
 	public Product(JSONObject json) throws JSONException {
 		if ( json.has("product_id") ) {
-			this.productId = json.getLong("product_id");
+			this.id = json.getLong("product_id");
 		} else {
-			this.productId = 0;
+			this.id = 0;
 		}
 		this.owner = json.getString("owner");
 		this.name = json.getString("name");
@@ -41,14 +41,14 @@ public class Product {
 		this.owner = owner;
 	}
 	public long getProductId() {
-		return productId;
+		return id;
 	}
-	public void setProductId(long productId) {
-		this.productId = productId;
+	public void setProductId(long id) {
+		this.id = id;
 	}
 	public void toJson(JSONWriter out) throws JSONException {
 		out.object();
-		out.key("product_id");out.value(this.productId);
+		out.key("id");out.value(this.id);
 		out.key("owner");out.value(this.owner);
 		out.key("name");out.value(this.name);
 		out.key("description");out.value(this.description);

@@ -1,4 +1,4 @@
-{identifier:"value",items:[
+{identifier:"value",label:"label",items:[
 	{value:"0",label:"New"},
 	{value:"1",label:"Open"},
 	{value:"2",label:"Closed"},

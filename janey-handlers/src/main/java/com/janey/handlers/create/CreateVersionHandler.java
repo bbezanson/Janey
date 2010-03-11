@@ -25,6 +25,8 @@ public class CreateVersionHandler extends BaseAdminHandler implements Handler {
 		// TODO Auto-generated method stub
 		Version version = new Version(json);
 		daoManager.getVersionManager().create(version);
+		
+		returnStatus(out, STAT_SUCCESS);
 	}
 
 }
