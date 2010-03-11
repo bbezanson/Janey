@@ -9,6 +9,7 @@ import com.janey.handlers.create.CreateCommentHandler;
 import com.janey.handlers.create.CreateConfigHandler;
 import com.janey.handlers.create.CreateIssueHandler;
 import com.janey.handlers.create.CreateProductHandler;
+import com.janey.handlers.create.CreateUserHandler;
 import com.janey.handlers.create.CreateVersionHandler;
 import com.janey.handlers.delete.DeleteCommentHandler;
 import com.janey.handlers.delete.DeleteIssueHandler;
@@ -17,6 +18,7 @@ import com.janey.handlers.delete.DeleteVersionHandler;
 import com.janey.handlers.get.GetAllCommentsHandler;
 import com.janey.handlers.get.GetAllIssuesHandler;
 import com.janey.handlers.get.GetAllProductsHandler;
+import com.janey.handlers.get.GetAllUsersHandler;
 import com.janey.handlers.get.GetAllVersionsHandler;
 import com.janey.handlers.get.GetConfigHandler;
 import com.janey.handlers.get.GetIssueHandler;
@@ -59,6 +61,9 @@ public class HandlerManager {
 		
 		this.handlers.add(new CreateConfigHandler());
 		this.handlers.add(new GetConfigHandler());
+		
+		this.handlers.add(new CreateUserHandler());
+		this.handlers.add(new GetAllUsersHandler());
 	}
 		
 	

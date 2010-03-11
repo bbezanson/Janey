@@ -6,15 +6,19 @@ import org.json.JSONWriter;
 
 public class Product {
 	private long productId;
-	private int owner;
+	private String owner;
 	private String name;
 	private String description;
 	
 	public Product() {
 	}
 	public Product(JSONObject json) throws JSONException {
-		this.productId = json.getLong("product_id");
-		this.owner = json.getInt("owner");
+		if ( json.has("product_id") ) {
+			this.productId = json.getLong("product_id");
+		} else {
+			this.productId = 0;
+		}
+		this.owner = json.getString("owner");
 		this.name = json.getString("name");
 		this.description = json.getString("description");
 	}
@@ -30,10 +34,10 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getOwner() {
+	public String getOwner() {
 		return owner;
 	}
-	public void setOwner(int owner) {
+	public void setOwner(String owner) {
 		this.owner = owner;
 	}
 	public long getProductId() {

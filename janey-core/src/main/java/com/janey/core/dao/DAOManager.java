@@ -9,11 +9,13 @@ import com.janey.core.managers.CommentManager;
 import com.janey.core.managers.IssueManager;
 import com.janey.core.managers.PrefsManager;
 import com.janey.core.managers.ProductsManager;
+import com.janey.core.managers.UserManager;
 import com.janey.core.managers.VersionManager;
 import com.janey.core.managers.impl.CommentManagerImpl;
 import com.janey.core.managers.impl.IssueManagerImpl;
 import com.janey.core.managers.impl.PrefsManagerImpl;
 import com.janey.core.managers.impl.ProductsManagerImpl;
+import com.janey.core.managers.impl.UserManagerImpl;
 import com.janey.core.managers.impl.VersionManagerImpl;
 
 public class DAOManager {
@@ -23,6 +25,7 @@ public class DAOManager {
 	private PrefsManager prefsManager;
 	private Properties properties;
 	private ProductsManager productsManager;
+	private UserManager userManager;
 	private VersionManager versionManager;
 	
 	public DAOManager(Properties props) throws SQLException {
@@ -45,6 +48,7 @@ public class DAOManager {
 			this.commentManager = new CommentManagerImpl(this.conn);
 			this.issueManager = new IssueManagerImpl(this.conn);
 			this.productsManager = new ProductsManagerImpl(this.conn);
+			this.userManager = new UserManagerImpl(this.conn);
 			this.versionManager = new VersionManagerImpl(this.conn);
 		}
 	}
@@ -53,6 +57,7 @@ public class DAOManager {
 		this.commentManager.destroy();
 		this.issueManager.destroy();
 		this.productsManager.destroy();
+		this.userManager.destroy();
 		this.versionManager.destroy();
 	}
 	
@@ -83,7 +88,11 @@ public class DAOManager {
 	public ProductsManager getProductsManager() {
 		return productsManager;
 	}
-
+	
+	public UserManager getUserManager() {
+		return this.userManager;
+	}
+	
 	public VersionManager getVersionManager() {
 		return versionManager;
 	}

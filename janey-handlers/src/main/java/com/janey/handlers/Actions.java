@@ -27,4 +27,9 @@ public class Actions {
 	public static final String CREATE_CONFIG = "create_config";
 	public static final String UPDATE_CONFIG = "update_config";
 	public static final String GET_CONFIG = "get_config";
+	
+	public static final String CREATE_USER = "create_user";
+	public static final String UPDATE_USER = "update_user";
+	public static final String GET_USER = "get_user";
+	public static final String GET_ALL_USERS = "get_all_users";
 }

@@ -19,6 +19,7 @@ CREATE TABLE janey_user
 (
 	user_id		VARCHAR(24) NOT NULL,
 	password	VARCHAR(64) NOT NULL,
+	email		VARCHAR(128),
 	PRIMARY KEY(user_id)
 );
 

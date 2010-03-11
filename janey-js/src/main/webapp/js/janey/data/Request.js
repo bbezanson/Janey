@@ -1,5 +1,6 @@
 dojo.provide("janey.data.Request");
 
+dojo.require("janey.Ajax");
 dojo.require("janey.data.Response");
 
 dojo.declare("janey.data.Request", janey.Ajax, {

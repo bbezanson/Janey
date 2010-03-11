@@ -64,7 +64,7 @@ public class ProductsManagerImpl implements ProductsManager {
 		protected Product create(ResultSet rs) throws SQLException {
 			Product p = new Product();
 			p.setProductId(rs.getLong("product_id"));
-			p.setOwner(rs.getInt("owner"));
+			p.setOwner(rs.getString("owner"));
 			p.setName(rs.getString("name"));
 			p.setDescription(rs.getString("description"));
 			return p;
@@ -74,15 +74,14 @@ public class ProductsManagerImpl implements ProductsManager {
 	protected class ProductCreateQuery extends BaseProductQuery {
 		protected ProductCreateQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "insert into " +this.table+ " (product_id, owner, name, description) values (?,?,?,?)";
+			String sql = "insert into " +this.table+ " (product_id, owner, name, description) values ((select count(*) from "+this.table+"),?,?,?)";
 			this.compile(sql);
 		}
 		
 		protected void execute(Product product) throws SQLException {
-			this.stmt.setLong(1, product.getProductId());
-			this.stmt.setInt(2, product.getOwner());
-			this.stmt.setString(3, product.getName());
-			this.stmt.setString(4, product.getDescription());
+			this.stmt.setString(1, product.getOwner());
+			this.stmt.setString(2, product.getName());
+			this.stmt.setString(3, product.getDescription());
 			this.stmt.executeUpdate();
 		}
 	}
@@ -95,7 +94,7 @@ public class ProductsManagerImpl implements ProductsManager {
 		}
 		
 		protected void execute(Product product) throws SQLException {
-			this.stmt.setInt(1, product.getOwner());
+			this.stmt.setString(1, product.getOwner());
 			this.stmt.setString(2, product.getName());
 			this.stmt.setString(3, product.getDescription());
 			this.stmt.setLong(4, product.getProductId());

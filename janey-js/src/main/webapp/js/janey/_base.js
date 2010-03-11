@@ -26,7 +26,10 @@ dojo.provide("janey._base");
 			GET_ALL_PRODUCTS:"get_all_products",
 			
 			CREATE_CONFIG:"create_config",
-			GET_CONFIG:"get_config"
+			GET_CONFIG:"get_config",
+			
+			CREATE_USER:"create_user",
+			GET_ALL_USERS:"get_all_users"
 	};
 	
 	janey.alert = function(msg, type) {
