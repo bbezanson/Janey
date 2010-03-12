@@ -1,0 +1,15 @@
+.optionheading {
+	margin:1em;
+	font-weight:bold;
+	font-size:130%;
+}
+
+.optiontable {
+	padding:1em;
+	margin:1em;
+	border:dashed black 1px;
+}
+
+.right {
+	text-align:right;
+}

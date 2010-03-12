@@ -18,6 +18,7 @@
 <style type='text/css'>
 	@import "/janey/js/dojo/dijit/themes/tundra/tundra.css";
 	@import "/janey/js/dojo/dojo/resources/dojo.css";
+	@import "/janey/css/janey.css";
 	html, body { width: 100%; height: 100%; margin: 0; } #borderContainer
     { width: 100%; height: 100%; }
 </style>
@@ -25,6 +26,7 @@
 <script type="text/javascript" src="/janey/js/dojo/dojo/janeydojo.js<%=compress%>"></script>
 <script type="text/javascript">
 	dojo.require("dojo.parser");
+	dojo.require("dijit.layout.BorderContainer");
 	dojo.require("dijit.layout.TabContainer");
 	dojo.require("dijit.layout.ContentPane");
 	dojo.require("dijit.form.Select");
@@ -180,60 +182,90 @@
 </script>
 </head>
 <body class="tundra">
-<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
-	<div dojoType="dijit.layout.ContentPane" title="New Issue">
-		<h1>Create New Issue</h1>
-		<label for="products">Product</label>
-		<select dojoType="dijit.form.Select" id="products"></select><br/>
-		<label for="versions">Version</label>
-		<select dojoType="dijit.form.Select" id="versions"></select><br/>
-		<label for="status">Status</label>
-		<select dojoType="dijit.form.Select" id="status"></select><br/>
-		<label for="type">Type</label>
-		<select dojoType="dijit.form.Select" id="type"></select><br/>
-		<label for="severity">Severity</label>
-		<select dojoType="dijit.form.Select" id="severity"></select><br/>
-		<label for="platform">Platform</label>
-		<select dojoType="dijit.form.Select" id="platform"></select><br/>
-		<label for="summary">Summary</label>
-        <input type="text" id="summary" dojoType="dijit.form.ValidationTextBox"/><br/>
-        <label for="description">Description</label>
-        <textarea dojoType="dijit.form.Textarea" id="description"></textarea><br/>
-        <label for="description">Reported By</label>
-        <select dojoType="dijit.form.Select" id="reportedby"></select><br/>
-        <label for="description">Assign To</label>
-        <select dojoType="dijit.form.Select" id="assignto"></select><br/>
-        <button dojoType="dijit.form.Button" id="saveissue">Save</button>
+<div dojoType="dijit.layout.BorderContainer" design="headline" gutters="true" liveSplitters="true" id="borderContainer">
+	<div dojoType="dijit.layout.ContentPane" region="top">
+		<h1>Janey - Simple Issue Management</h1><span style="float:right;"><a href="admin.jsp">Administration</a></span>
 	</div>
-	<div dojoType="dijit.layout.ContentPane" title="New Comment">
-		<h1>Create New Comment</h1>
-		<label for="issue">Issue</label>
-		<select dojoType="dijit.form.Select" id="issue"></select><br/>
-		<label for="commenttype">Comment Type</label>
-		<select dojoType="dijit.form.Select" id="commenttype"></select><br/>
-		<label for="description">Comment</label>
-        <textarea dojoType="dijit.form.Textarea" id="comment"></textarea><br/>
-		<button dojoType="dijit.form.Button" id="savecomment">Save</button>
+	<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" region="center">
+		<div dojoType="dijit.layout.ContentPane" title="Home">Coming Soon</div>
+		<div dojoType="dijit.layout.ContentPane" title="New Issue">
+			<div class="optionheading">Create New Issue</div>
+			<div class="optiontable"><table>
+	        	<tr>
+	        		<td><label for="products">Product</label></td>
+					<td><select dojoType="dijit.form.Select" id="products"></select></td>
+				</tr><tr>
+					<td><label for="versions">Version</label></td>
+					<td><select dojoType="dijit.form.Select" id="versions"></select></td>
+				</tr><tr>
+					<td><label for="status">Status</label></td>
+					<td><select dojoType="dijit.form.Select" id="status"></select></td>
+				</tr><tr>
+					<td><label for="type">Type</label></td>
+					<td><select dojoType="dijit.form.Select" id="type"></select></td>
+				</tr><tr>
+					<td><label for="severity">Severity</label></td>
+					<td><select dojoType="dijit.form.Select" id="severity"></select></td>
+				</tr><tr>
+					<td><label for="platform">Platform</label></td>
+					<td><select dojoType="dijit.form.Select" id="platform"></select></td>
+				</tr><tr>
+					<td><label for="summary">Summary</label></td>
+			        <td><input type="text" id="summary" dojoType="dijit.form.ValidationTextBox"/></td>
+			    </tr><tr>
+			        <td><label for="description">Description</label></td>
+			        <td><textarea dojoType="dijit.form.Textarea" id="description"></textarea></td>
+			    </tr><tr>
+			        <td><label for="description">Reported By</label></td>
+			        <td><select dojoType="dijit.form.Select" id="reportedby"></select></td>
+			    </tr><tr>
+			        <td><label for="description">Assign To</label></td>
+			        <td><select dojoType="dijit.form.Select" id="assignto"></select></td>
+			    </tr><tr>
+			        <td colspan="2" class="right"><button dojoType="dijit.form.Button" id="saveissue">Save</button></td>
+			    </tr>
+			</table></div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="New Comment">
+			<div class="optionheading">Create New Comment</div>
+			<div class="optiontable"><table>
+	        	<tr>
+	        		<td><label for="issue">Issue</label></td>
+					<td><select dojoType="dijit.form.Select" id="issue"></select></td>
+				</tr><tr>
+					<td><label for="commenttype">Comment Type</label></td>
+					<td><select dojoType="dijit.form.Select" id="commenttype"></select></td>
+				</tr><tr>
+					<td><label for="description">Comment</label></td>
+			        <td><textarea dojoType="dijit.form.Textarea" id="comment"></textarea></td>
+			    </tr><tr>
+					<td colspan="2" class="right"><button dojoType="dijit.form.Button" id="savecomment">Save</button></td>
+				</tr>
+			</table></div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" title="Misc">
+			<h1>Misc/Starting Points</h1>
+			<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>
+			<a href="/janey/js/dojo/dijit/themes/themeTester.html">Dijit Themes Tester</a><br/>
+			<a href="/janey/admin.jsp">Admin Page</a><br/>
+			<a href="/janey/configure.jsp">Config Page</a><br/>
+			<p>First you need a database, currently janey has only been tested with
+			postgresql, but the goal is to also support hsqldb for quick installation. Use the 
+			setup script in the project root etc directory. After that is done, use the link 
+			above to the <em>config</em> page and set up the config. Currently only the config for the
+			db is looked at, we will add email support and insert the admin user soon. After that is
+			done you might need to restart the server. This has only been tested on tomcat so far, but
+			we plan to also support jetty. At this point you should come back here and use the admin
+			page to create users, a project, and versions for the project. When that is done you can
+			come back here and create issues (bugs) and comments for issues. There is currently no
+			type checking on the fields, and there is still a lot to do with adding in searching for
+			issues and displaying them, logging in users, giving users a home page, etc...</p>
+			
+		</div>
 	</div>
-	<div dojoType="dijit.layout.ContentPane" title="Misc">
-		<h1>Misc/Starting Points</h1>
-		<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>
-		<a href="/janey/js/dojo/dijit/themes/themeTester.html">Dijit Themes Tester</a><br/>
-		<a href="/janey/admin.jsp">Admin Page</a><br/>
-		<a href="/janey/configure.jsp">Config Page</a><br/>
-		<p>First you need a database, currently janey has only been tested with
-		postgresql, but the goal is to also support hsqldb for quick installation. Use the 
-		setup script in the project root etc directory. After that is done, use the link 
-		above to the <em>config</em> page and set up the config. Currently only the config for the
-		db is looked at, we will add email support and insert the admin user soon. After that is
-		done you might need to restart the server. This has only been tested on tomcat so far, but
-		we plan to also support jetty. At this point you should come back here and use the admin
-		page to create users, a project, and versions for the project. When that is done you can
-		come back here and create issues (bugs) and comments for issues. There is currently no
-		type checking on the fields, and there is still a lot to do with adding in searching for
-		issues and displaying them, logging in users, giving users a home page, etc...</p>
-		
-	</div>
+	<div dojoType="dijit.layout.ContentPane" region="bottom">
+    	<span style="float:right;font-weight:bold;">Janey</span>
+    </div>
 </div>
 </body>
 </html>

@@ -18,6 +18,7 @@
 <style type='text/css'>
 	@import "/janey/js/dojo/dijit/themes/tundra/tundra.css";
 	@import "/janey/js/dojo/dojo/resources/dojo.css";
+	@import "/janey/css/janey.css";
 	html, body { width: 100%; height: 100%; margin: 0; } #borderContainer
     { width: 100%; height: 100%; }
 </style>
@@ -109,6 +110,10 @@
 			action:janey.actions.CREATE_VERSION
 		});
 	}
+
+	function loadPane(pane) {
+		dijit.byId("stackContainer").selectChild(dijit.byId(pane));
+	}
 	
 	function response(json) {
 		console.log("response:" + json);
@@ -117,13 +122,15 @@
 	function init() {
 		console.log("Hello World");
 		dijit.byId("usersPane").attr("title", "Janey Users");
-		dojo.connect(dijit.byId("usersPane"), "onClick", dojo.hitch(null, "getUsers"));
-		dojo.connect(dijit.byId("productsPane"), "onClick", dojo.hitch(null, "getProducts"));
+		dojo.connect(dijit.byId("newUserButton"), "onClick", dojo.hitch(null, "loadPane", "userinfo"));
+		dojo.connect(dijit.byId("newProductButton"), "onClick", dojo.hitch(null, "loadPane", "prodinfo"));
+		dojo.connect(dijit.byId("newVersionButton"), "onClick", dojo.hitch(null, "loadPane", "versinfo"));
 		
 		dojo.subscribe("janey/data/Response", null, "response");
 		dojo.connect(dijit.byId("saveuser"), "onClick", dojo.hitch(null, "createUser"));
 		dojo.connect(dijit.byId("saveprod"), "onClick", dojo.hitch(null, "createProduct"));
 		dojo.connect(dijit.byId("savevers"), "onClick", null, "createVersion");
+
 		getUsers();
 		getProducts();
 	}
@@ -132,52 +139,74 @@
 </script>
 </head>
 <body class="tundra">
-<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="true" liveSplitters="true" id="borderContainer">
+<div dojoType="dijit.layout.BorderContainer" design="headline" gutters="true" liveSplitters="true" id="borderContainer">
+	<div dojoType="dijit.layout.ContentPane" region="top">
+		<h1>Administration</h1><span style="float:right;"><a href="index.jsp">Home</a></span>
+	</div>
     <div dojoType="dijit.layout.AccordionContainer" spliter="true" region="leading" style="width:20%;">
 		<div dojoType="dijit.layout.AccordionPane" title="Users" id="usersPane">
-			<div dojoType="dijit.Toolbar"></div>
+			<button dojoType="dijit.form.Button" id="newUserButton">New User</button>
 		</div>
-		<div dojoType="dijit.layout.AccordionPane" title="Products" id="productsPane"></div>
+		<div dojoType="dijit.layout.AccordionPane" title="Products" id="productsPane">
+			<button dojoType="dijit.form.Button" id="newProductButton">New Product</button>
+		</div>
+		<div dojoType="dijit.layout.AccordionPane" title="Product Versions" id="versionsPane">
+			<button dojoType="dijit.form.Button" id="newVersionButton">New Version</button>
+		</div>
 	</div>
-    <div dojoType="dijit.layout.ContentPane" splitter="true" region="center">
-        Starting admin page, create stuff willy nilly, no permission, no error checking...yet
-        <h1>Define User (debug only - do this first!!)</h1>
-        <label for="username">Username</label>
-        <input type="text" id="username" dojoType="dijit.form.ValidationTextBox"/><br/>
-        <label for="password">Password</label>
-        <input type="password" id="password" dojoType="dijit.form.ValidationTextBox"/><br/>
-        <label for="password">Email</label>
-        <input type="text" id="email" dojoType="dijit.form.ValidationTextBox"/><br/>
-        <button dojoType="dijit.form.Button" id="saveuser">Save</button>
-        <h1>Define Product (debug only - do this second)</h1>
-        <label for="productname">Name</label>
-        <input type="text" id="productname" dojoType="dijit.form.ValidationTextBox"/><br/>
-        <label for="productdesc">Description</label>
-        <textarea dojoType="dijit.form.Textarea" id="productdesc"></textarea><br/>
-        <label for="productowner">Owner</label>
-        <select dojoType="dijit.form.Select" id="productowner"></select><br/>
-        <button dojoType="dijit.form.Button" id="saveprod">Save</button>
-        <h1>Define Version (debug only - do this last)</h1>
-        <label for="versionprod">Product</label>
-        <select dojoType="dijit.form.Select" id="versionprod"></select><br/>
-		<label for="version">Version</label>
-        <input type="text" id="version" dojoType="dijit.form.ValidationTextBox"/><br/>
-        <button dojoType="dijit.form.Button" id="savevers">Save</button>
+   	<div dojoType="dijit.layout.StackContainer" id="stackContainer" splitter="true" region="center">
+   		<div dojoType="dijit.layout.ContentPane" id="userinfo" title="User Information">
+	        <div class="optionheading">Define User (debug only - do this first!!)</div>
+	        <div class="optiontable"><table>
+	        	<tr>
+	        		<td><label for="username">Username</label></td>
+	        		<td><input type="text" id="username" dojoType="dijit.form.ValidationTextBox" trim="true"/></td>
+	        	</tr><tr>
+	        		<td><label for="password">Password</label></td>
+	       			<td><input type="password" id="password" dojoType="dijit.form.ValidationTextBox" trim="true"/></td>
+	       		</tr><tr>
+	        		<td><label for="password">Email</label></td>
+	        		<td><input type="text" id="email" dojoType="dijit.form.ValidationTextBox" trim="true" regExp=".*@.*"/></td>
+	        	</tr><tr>
+	        		<td colspan="2" class="right"><button dojoType="dijit.form.Button" id="saveuser">Save</button></td>
+	        	</tr>
+	        </table></div>
+        </div>
+        <div dojoType="dijit.layout.ContentPane" id="prodinfo" title="Product Information">
+	        <div class="optionheading">Define Product (debug only - do this second)</div>
+	        <div class="optiontable"><table>
+	        	<tr>
+	        		<td><label for="productname">Name</label></td>
+	        		<td><input type="text" id="productname" dojoType="dijit.form.ValidationTextBox"/></td>
+	        	</tr><tr>
+			        <td><label for="productdesc">Description</label></td>
+			        <td><textarea dojoType="dijit.form.Textarea" id="productdesc"></textarea></td>
+			    </tr><tr>
+			        <td><label for="productowner">Owner</label></td>
+			        <td><select dojoType="dijit.form.Select" id="productowner"></select></td>
+			    </tr><tr>
+			        <td colspan="2" class="right"><button dojoType="dijit.form.Button" id="saveprod">Save</button></td>
+	        	</tr>
+	        </table></div>
+        </div>
+        <div dojoType="dijit.layout.ContentPane" id="versinfo" title="Version Information">
+	        <div class="optionheading">Define Version (debug only - do this last)</div>
+	        <div class="optiontable"><table>
+	        	<tr>
+	        		<td><label for="versionprod">Product</label></td>
+			        <td><select dojoType="dijit.form.Select" id="versionprod"></select></td>
+			    </tr><tr>
+					<td><label for="version">Version</label></td>
+			        <td><input type="text" id="version" dojoType="dijit.form.ValidationTextBox"/></td>
+			    </tr><tr>
+			        <td colspan="2" class="right"><button dojoType="dijit.form.Button" id="savevers">Save</button></td>
+			    </tr>
+	        </table></div>
+        </div>
+    </div>
+    <div dojoType="dijit.layout.ContentPane" region="bottom">
+    	<span style="float:right;font-weight:bold;">Janey</span>
     </div>
 </div>
-<!-- 
-	<div dojoType="dijit.layout.BorderContainer" gutters="true">
-		<div dojoType="dijit.layout.ContentPane" region="top" splitter="false">
-			Janey
-		</div>
-		<div dojoType="dijit.layout.BorderContainer" livesplitters="true" design="sidebar" region="center">
-			<div dojoType="dijit.layout.AccordionContainer" spliter="true" region="leading" style="width:20%;">
-				<div dojoType="dijit.layout.AccordionPane" title="Users"></div>
-				<div dojoType="dijit.layout.AccordionPane" title="Products"></div>
-			</div>
-			<div dojoType="dijit.layout.ContentPane" region="center" id="canvas"></div>
-		</div>
-	</div>
--->
 </body>
 </html>
