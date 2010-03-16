@@ -59,6 +59,7 @@ public class DAOManager {
 		this.productsManager.destroy();
 		this.userManager.destroy();
 		this.versionManager.destroy();
+		this.conn.close();
 	}
 	
 	public void sync() throws SQLException {
