@@ -13,3 +13,9 @@
 .right {
 	text-align:right;
 }
+
+.gridContainer {
+	width:100%;
+	height:100%;
+	clear:both;
+}

@@ -1,23 +1,35 @@
 dependencies = {
 		layers:[{name:"janeydojo.js",
 			dependencies:[
+			              "dojo.data.ItemFileReadStore",
 			              "dijit.Dialog",
 			              "dijit.Editor",
 			              "dijit.ProgressBar",
 			              "dijit.TitlePane",
 			              "dijit.Tooltip",
+			              "dijit.TooltipDialog",
 			              "dijit.form.Button",
 			              "dijit.form.FilteringSelect",
 			              "dijit.form.NumberTextBox",
+			              "dijit.form.Select",
+			              "dijit.form.Textarea",
 			              "dijit.form.TextBox",
+			              "dijit.form.ValidationTextBox",
+			              "dijit.layout.BorderContainer",
 			              "dijit.layout.ContentPane",
 			              "dijit.layout.TabContainer",
 			              "dojox.widget.Toaster",
+			              "dojox.grid.DataGrid",
 			              "janey._base",
 			              "janey.Ajax",
 			              "janey.data.Request",
 			              "janey.data.Response",
-			              "janey.data.Config"
+			              "janey.data.Config",
+			              "janey.store._base",
+			              "janey.store.Comment",
+			              "janey.store.Product",
+			              "janey.store.User",
+			              "janey.store.Version"
 			             ]
 			   }],
 		prefixes:[

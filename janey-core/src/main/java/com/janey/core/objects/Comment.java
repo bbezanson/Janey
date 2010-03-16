@@ -1,6 +1,7 @@
 package com.janey.core.objects;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,11 +57,12 @@ public class Comment {
 	}
 
 	public void toJson(JSONWriter out) throws JSONException {
+		DateFormat df = DateFormat.getDateInstance();
 		out.object();
 		out.key("id");out.value(this.id);
 		out.key("issue_id");out.value(this.issueId);
 		out.key("type");out.value(this.type);
-		out.key("date");out.value(this.date);
+		out.key("date");out.value(df.format(this.date));
 		out.key("comment");out.value(this.comment);
 		out.endObject();
 	}

@@ -30,6 +30,9 @@ public class GetAllCommentsHandler extends BaseHandler implements Handler {
 		
 		if ( comments != null ) {
 			out.object();
+			out.key("identifier");out.value("id");
+			out.key("label");out.value("id");
+			out.key("items");
 			out.array();
 			for ( Comment comment : comments ) {
 				comment.toJson(out);

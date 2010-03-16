@@ -28,6 +28,8 @@ public class GetAllProductsHandler extends BaseHandler implements Handler {
 		
 		if ( products != null ) {
 			out.object();
+			out.key("identifier");out.value("id");
+			out.key("label");out.value("name");
 			out.key("items");
 			out.array();
 			for ( Product product : products ) {

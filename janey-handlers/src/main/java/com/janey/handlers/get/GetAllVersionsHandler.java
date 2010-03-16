@@ -27,6 +27,8 @@ public class GetAllVersionsHandler extends BaseHandler implements Handler {
 		List<Version> versions = daoManager.getVersionManager().getAll(product_id);
 		if ( versions != null ) {
 			out.object();
+			out.key("identifier");out.value("version");
+			out.key("label");out.value("version");
 			out.key("items");
 			out.array();
 			for (Version version : versions ) {

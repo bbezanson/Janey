@@ -90,17 +90,6 @@
 		});
 	}
 
-	function createProduct() {
-		new janey.data.Request({
-			request:{
-				name:dijit.byId("productname").attr("value"),
-				description:dijit.byId("productdesc").attr("value"),
-				owner:dijit.byId("productowner").attr("value")
-			},
-			action:janey.actions.CREATE_PRODUCT
-		});
-	}
-
 	function createVersion() {
 		new janey.data.Request({
 			request:{

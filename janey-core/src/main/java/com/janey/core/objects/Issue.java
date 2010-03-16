@@ -1,6 +1,7 @@
 package com.janey.core.objects;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,6 +134,7 @@ public class Issue {
 		this.type = type;
 	}
 	public void toJson(JSONWriter out) throws JSONException {
+		DateFormat df = DateFormat.getDateInstance();
 		out.object();
 		out.key("id");out.value(this.id);
 		out.key("product_id");out.value(this.productId);
@@ -143,11 +145,12 @@ public class Issue {
 		out.key("title");out.value(this.title);
 		out.key("description");out.value(this.description);
 		out.key("reported_by");out.value(this.reportedBy);
-		out.key("reported_date");out.value(this.reportedDate);
+		out.key("reported_date");out.value(df.format(this.reportedDate));
 		out.key("reported_version");out.value(this.reportedVersion);
-		out.key("resolved_by");out.value(this.reportedBy);
-		out.key("resolved_date");out.value(this.reportedDate);
-		out.key("resolved_version");out.value(this.reportedVersion);
+		out.key("assigned_to");out.value(this.assignedTo);
+		out.key("resolved_by");out.value(this.resolvedBy);
+		out.key("resolved_date");out.value(this.resolvedDate);
+		out.key("resolved_version");out.value(this.resolvedVersion);
 		out.endObject();
 	}
 }

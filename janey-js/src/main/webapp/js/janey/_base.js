@@ -32,6 +32,14 @@ dojo.provide("janey._base");
 			GET_ALL_USERS:"get_all_users"
 	};
 	
+	janey.stores = {
+			COMMENT_TYPE:"json/commenttype.txt",
+			ISSUE_TYPE:"json/kind.txt",
+			PLATFORM:"json/platforms.txt",
+			SEVERITY:"json/severity.txt",
+			STATUS:"json/status.txt"
+	};
+	
 	janey.alert = function(msg, type) {
 		// possible types {"message","warning","error","fatal"}
 		console.log("[" + type + "]:" + msg);

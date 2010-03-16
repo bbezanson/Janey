@@ -27,6 +27,8 @@ public class GetAllIssuesHandler extends BaseHandler implements Handler {
 		
 		if ( issues != null ) {
 			out.object();
+			out.key("identifier");out.value("id");
+			out.key("label");out.value("title");
 			out.key("items");
 			out.array();
 			for ( Issue issue : issues ) {

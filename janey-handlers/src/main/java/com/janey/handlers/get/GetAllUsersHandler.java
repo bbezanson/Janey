@@ -27,6 +27,8 @@ public class GetAllUsersHandler extends BaseHandler implements Handler {
 		
 		if ( users != null ) {
 			out.object();
+			out.key("identifier");out.value("id");
+			out.key("label");out.value("id");
 			out.key("items");
 			out.array();
 			for ( User user : users ) {
