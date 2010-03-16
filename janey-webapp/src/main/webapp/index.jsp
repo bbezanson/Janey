@@ -85,6 +85,7 @@
 	function getProducts() {
 		var s = new janey.store.Product();
 		var f = function(store) {
+			stores.fullproduct = store;
 			stores.product = s.selectStore;
 			createProductsGrid(store);
 			dijit.byId("products").setStore(s.selectStore);
@@ -311,10 +312,10 @@
 			productsGrid.startup();
 			dojo.connect(productsGrid, "onDblClick", function(){
 				var item = productsGrid.selection.getSelected()[0];
-				dojo.byId("productid").innerHTML = store.getValue(item, "id");
-				dojo.byId("productdialog_name").innerHTML = store.getValue(item, "name");
+				dojo.byId("productid").innerHTML = stores.fullproduct.getValue(item, "id");
+				dojo.byId("productdialog_name").innerHTML = stores.fullproduct.getValue(item, "name");
 				dijit.byId("productdialog").show();
-				getVersions(store.getValue(item, "id"));
+				getVersions(stores.fullproduct.getValue(item, "id"));
 			});
 		} else {
 			productsGrid.setStore(store);
