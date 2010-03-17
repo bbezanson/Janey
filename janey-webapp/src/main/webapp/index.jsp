@@ -149,7 +149,7 @@
 				comment:dijit.byId("comment").attr("value")
 			}, 
 			action:janey.actions.CREATE_COMMENT,
-			oncomplete:dojo.hitch(null, "getComments", id)
+			oncomplete:dojo.hitch(null, "getComments", issue_id)
 		});
 	}
 
@@ -254,7 +254,7 @@
 	            dojo.byId("issuedescription").innerHTML = stores.issue.getValue(item, "description");
 	            dijit.byId("commenttype").setStore(stores["commenttype"]);
 	            dijit.byId("issuedialog").show();
-	            getComments(store.getValue(item, "id"));
+	            getComments(stores.issue.getValue(item, "id"));
 	        });
 		} else {
 			issuesGrid.setStore(store);
