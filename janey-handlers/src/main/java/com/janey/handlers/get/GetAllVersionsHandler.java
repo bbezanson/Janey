@@ -23,19 +23,24 @@ public class GetAllVersionsHandler extends BaseHandler implements Handler {
 
 	public void handle(JaneySession js, DAOManager daoManager, JSONObject json,
 			JSONWriter out) throws SQLException, JSONException, JaneyException {
-		long product_id = json.getLong("product_id");
-		List<Version> versions = daoManager.getVersionManager().getAll(product_id);
-		if ( versions != null ) {
-			out.object();
-			out.key("identifier");out.value("version");
-			out.key("label");out.value("version");
-			out.key("items");
-			out.array();
-			for (Version version : versions ) {
-				version.toJson(out);
+		if ( json.has("product_id") ) {
+			long product_id = json.getLong("product_id");
+			List<Version> versions = daoManager.getVersionManager().getAll(product_id);
+			if ( versions != null ) {
+				out.object();
+				out.key("identifier");out.value("version");
+				out.key("label");out.value("version");
+				out.key("items");
+				out.array();
+				for (Version version : versions ) {
+					version.toJson(out);
+				}
+				out.endArray();
+				out.endObject();
 			}
-			out.endArray();
-			out.endObject();
+		} else {
+			// TODO: Don't return success, need code for no prod id
+			returnStatus(out, STAT_SUCCESS);
 		}
 	}
 

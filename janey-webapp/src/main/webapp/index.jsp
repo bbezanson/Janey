@@ -35,6 +35,7 @@
 	dojo.require("dijit.layout.ContentPane");
 	dojo.require("dijit.form.Select");
 	dojo.require("dojo.data.ItemFileReadStore");
+	dojo.require("dijit.form.CheckBox");
 	dojo.require("dijit.form.Textarea");
 	dojo.require("dijit.form.ValidationTextBox");
 	dojo.require("dijit.form.Button");
@@ -181,7 +182,8 @@
 			request:{
 				id:dijit.byId("username").attr("value"),
 				password:dijit.byId("password").attr("value"),
-				email:dijit.byId("email").attr("value")
+				email:dijit.byId("email").attr("value"),
+				active:dijit.byId("active").attr("value")
 			},
 			action:janey.actions.CREATE_USER,
 			oncomplete:dojo.hitch(null, "getUsers")
@@ -342,6 +344,7 @@
 	function createUsersGrid(store) {
 		if ( !usersGrid ) {
 			var layout = [
+			              {field:"active",name:"Active",width:"50px"},
 			              {field:"id",name:"ID",width:"200px"},
 			              {field:"email",name:"Email",width:"200px"}
 			];
@@ -431,6 +434,7 @@
 		</div>
 		<div dojoType="dijit.layout.ContentPane" title="Search">Coming Soon</div>
 		<div dojoType="dijit.layout.ContentPane" title="Products">
+			Double click a product to view/add versions!
 			<div dojoType="dijit.form.DropDownButton" style="float:right;clear:both;">
 				<span>New Product</span>
 				<div dojoType="dijit.TooltipDialog">
@@ -455,6 +459,8 @@
 	       			<input type="password" id="password" dojoType="dijit.form.ValidationTextBox" trim="true"/><br/>
 	        		<label for="password">Email</label>
 	        		<input type="text" id="email" dojoType="dijit.form.ValidationTextBox" trim="true" regExp=".*@.*"/><br/>
+	        		<input type="checkbox" id="active" dojoType="dijit.form.CheckBox"/>
+	        		<label for="active">Activate</label><br/>
 	        		<button dojoType="dijit.form.Button" type="submit" id="saveuser">Save</button>
 				 </div>
 			</div>
@@ -464,7 +470,6 @@
 			<h1>Misc/Starting Points</h1>
 			<a href="/janey/js/dojo/util/doh/runner.html">Dojo Tests</a><br>
 			<a href="/janey/js/dojo/dijit/themes/themeTester.html">Dijit Themes Tester</a><br/>
-			<a href="/janey/admin.jsp">Admin Page</a><br/>
 			<a href="/janey/configure.jsp">Config Page</a><br/>
 			<p>First you need a database, currently janey has only been tested with
 			postgresql, but the goal is to also support hsqldb for quick installation. Use the 
@@ -472,7 +477,7 @@
 			above to the <em>config</em> page and set up the config. Currently only the config for the
 			db is looked at, we will add email support and insert the admin user soon. After that is
 			done you might need to restart the server. This has only been tested on tomcat so far, but
-			we plan to also support jetty. At this point you should come back here and use the admin
+			we plan to also support jetty. At this point you should come back here and use this
 			page to create users, a project, and versions for the project. When that is done you can
 			come back here and create issues (bugs) and comments for issues. There is currently no
 			type checking on the fields, and there is still a lot to do with adding in searching for

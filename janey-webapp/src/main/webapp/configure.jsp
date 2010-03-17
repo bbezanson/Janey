@@ -90,7 +90,7 @@
 	function setDbUrl() {
 		var dbdriver = dijit.byId("dbdriver").attr("value"); 
 		if ( dbdriver === "org.postgresql.Driver" ) {
-			dijit.byId("dburl").attr("value", "jdbc:postgresql://localhost:5432");
+			dijit.byId("dburl").attr("value", "jdbc:postgresql://localhost:5432/");
 		} else if ( dbdriver === "org.hsqldb.jdbc.JDBCDriver" ) {
 			dijit.byId("dburl").attr("value", "jdbc:hsqldb:file:/path/to/dir/;shutdown=true");
 		}

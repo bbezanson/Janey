@@ -25,9 +25,10 @@ public class CreateUserHandler extends BaseHandler implements Handler {
 		String id = json.getString("id");
 		String password = json.getString("password");
 		String email = json.getString("email");
+		Boolean active = json.getString("active").equals("false") ? false : true;
 		
 		// TODO: need to encrypt the password
-		User user = new User(id, password, email);
+		User user = new User(id, password, email, active);
 		daoManager.getUserManager().create(user);
 		
 		returnStatus(out, STAT_SUCCESS);

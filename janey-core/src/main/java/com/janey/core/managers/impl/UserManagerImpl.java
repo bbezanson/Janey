@@ -57,7 +57,8 @@ public class UserManagerImpl implements UserManager {
 			return new User(
 					rs.getString("user_id"), 
 					rs.getString("password"), 
-					rs.getString("email")
+					rs.getString("email"),
+					rs.getBoolean("active")
 			);
 		}
 	}
@@ -65,7 +66,7 @@ public class UserManagerImpl implements UserManager {
 	protected class CreateUserQuery extends BaseUserQuery {
 		protected CreateUserQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "insert into " + this.table + " (user_id, password, email) values(?,?,?)";
+			String sql = "insert into " + this.table + " (user_id, password, email, active) values(?,?,?,?)";
 			this.compile(sql);
 		}
 		
@@ -73,6 +74,7 @@ public class UserManagerImpl implements UserManager {
 			this.stmt.setString(1, user.getId());
 			this.stmt.setString(2, user.getPassword());
 			this.stmt.setString(3, user.getEmail());
+			this.stmt.setInt(4, user.isActive() ? 1 : 0);
 			this.stmt.executeUpdate();
 		}
 	}
@@ -80,14 +82,15 @@ public class UserManagerImpl implements UserManager {
 	protected class UpdateUserQuery extends BaseUserQuery {
 		protected UpdateUserQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "update " + this.table + " set password=?, email=? where user_id=?";
+			String sql = "update " + this.table + " set password=?, email=?, active=? where user_id=?";
 			this.compile(sql);
 		}
 		
 		protected void execute(User user) throws SQLException {
 			this.stmt.setString(1, user.getPassword());
 			this.stmt.setString(2, user.getEmail());
-			this.stmt.setString(3, user.getId());
+			this.stmt.setInt(3, user.isActive() ? 1 : 0);
+			this.stmt.setString(4, user.getId());
 			this.stmt.executeUpdate();
 		}
 	}
@@ -95,7 +98,7 @@ public class UserManagerImpl implements UserManager {
 	protected class GetUserQuery extends BaseUserQuery {
 		protected GetUserQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "select user_id, password, email from " + this.table + " where user_id=?";
+			String sql = "select user_id, password, email, active from " + this.table + " where user_id=?";
 			this.compile(sql);
 		}
 		
@@ -115,7 +118,7 @@ public class UserManagerImpl implements UserManager {
 	protected class GetAllQuery extends BaseUserQuery {
 		protected GetAllQuery(Connection conn) throws SQLException {
 			super(conn);
-			String sql = "select user_id, password, email from " + this.table;
+			String sql = "select user_id, password, email, active from " + this.table;
 			this.compile(sql);
 		}
 		

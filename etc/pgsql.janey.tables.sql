@@ -20,6 +20,7 @@ CREATE TABLE janey_user
 	user_id		VARCHAR(24) NOT NULL,
 	password	VARCHAR(64) NOT NULL,
 	email		VARCHAR(128),
+	active		SMALLINT,
 	PRIMARY KEY(user_id)
 );
 
@@ -60,6 +61,7 @@ CREATE TABLE issue
 	platform		SMALLINT	NOT NULL,
 	title			VARCHAR(64)	NOT NULL,
 	description		TEXT		NOT NULL,
+	workaround		TEXT,
 	reported_by		VARCHAR(24)	NOT NULL,
 	reported_date		TIMESTAMP	NOT NULL,
 	reported_version 	VARCHAR(64)	NOT NULL,
